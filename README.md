@@ -49,11 +49,9 @@ flowchart TD
     IMPL --> TEST{測試/建置是否通過？}
     TEST -- 失敗 --> FIX[委派 @build-error-resolver\n修復錯誤]
     FIX --> TEST
-    TEST -- 通過 --> REVIEW[委派 @code-reviewer\n產出審查報告 v1.0]
-    REVIEW --> SEC_Q{涉及安全敏感？}
-    SEC_Q -- 是 --> SEC[委派 @security-reviewer\n產出資安報告]
-    SEC_Q -- 否 --> USER_REVIEW{使用者審查報告}
-    SEC --> USER_REVIEW
+    TEST -- 通過 --> W1[Wave 1：平行審查\n@style-reviewer haiku\n@security-reviewer sonnet\n@perf-test-reviewer haiku]
+    W1 --> W2[Wave 2：主審合併\n@review-lead opus\n讀取 3 份報告 + 交叉比對]
+    W2 --> USER_REVIEW{使用者審查報告}
     USER_REVIEW -- 需要修復 --> HOTFIX[委派 @implementer\n修復指定問題]
     HOTFIX --> RE_REVIEW[更新審查報告\n遞增版本]
     RE_REVIEW --> USER_REVIEW
@@ -83,13 +81,22 @@ flowchart TD
 3. 測試/建置失敗時，委派 **@build-error-resolver** 定位根因與修復
 4. 功能完成時，委派 **@e2e-runner** 建立 E2E 測試（若需要）
 
-#### 階段三：審查與修復（程式碼凍結）
+#### 階段三：多角度審查與修復（程式碼凍結）
 
-1. 委派 **@code-reviewer** 產出審查報告（`/tmp/code-review-latest.md`）
-2. 若涉及安全敏感區域，同時委派 **@security-reviewer** 產出資安報告
-3. 使用者閱讀報告，**判斷哪些問題需要修復**
-4. 修復後更新審查報告版本（v1.0 → v1.1...）
-5. 反覆至使用者確認通過
+審查採用 **兩波次（Wave 1 + Wave 2）** 架構，多角度交叉比對：
+
+**Wave 1（平行，3 個專項審查員）**：
+1. 委派 **@style-reviewer**（haiku）— 程式碼品質 + 編碼規範
+2. 委派 **@security-reviewer**（sonnet）— OWASP Top 10 + 安全漏洞
+3. 委派 **@perf-test-reviewer**（haiku）— 效能 + 可測試性
+
+**Wave 2（接續，1 個主審）**：
+4. 委派 **@review-lead**（opus）— SOLID + 功能正確性 + 讀取 3 份報告交叉比對 → 產出最終合併報告（`/tmp/code-review-latest.md`）
+
+**使用者決策**：
+5. 使用者閱讀合併報告，**判斷哪些問題需要修復**
+6. 委派 **@implementer** 修復 → **@review-lead** 更新報告版本
+7. 反覆至使用者確認通過
 
 ### 版本記錄規範
 
@@ -123,28 +130,37 @@ flowchart TD
 
 ## SubAgent 一覽表
 
-### 新增 agents（開發流程團隊）
+### 開發流程團隊
 
-| Agent | 職責 | 不做 | Model | 觸發時機 |
-|-------|------|------|-------|---------|
-| `planner` | 需求拆解、規劃報告、版本化討論管理 | 不寫程式碼、不做架構決策 | sonnet | 新功能需求、Epic 級工作 |
-| `implementer` | 依規劃報告撰寫/修改/修復程式碼 | 不做規劃、不做審查、不自行決定方案 | sonnet | 規劃確認後進入實作階段 |
-| `architect` | 架構設計、資料模型、分層結構、ADR | 不寫實作程式碼、不執行測試 | opus | 涉及新模組、跨服務整合 |
-| `tdd-guide` | TDD 引導、測試案例先行、驗收標準 | 不寫業務邏輯 | sonnet | 規劃確認後、實作前 |
-| `security-reviewer` | OWASP Top 10、威脅建模、安全架構 | 不做一般品質審查 | opus | 涉及認證/授權/金流/外部輸入 |
-| `build-error-resolver` | 錯誤日誌分析、根因定位、最小修復 | 不重構、不添加功能 | sonnet | CI 失敗、測試紅燈 |
-| `e2e-runner` | E2E 測試腳本生成、覆蓋矩陣 | 不測試單元邏輯 | sonnet | 功能完成、驗收前 |
+| Agent | 職責 | Model | 觸發時機 |
+|-------|------|-------|---------|
+| `planner` | 需求拆解、規劃報告、版本化討論管理 | sonnet | 新功能需求、Epic 級工作 |
+| `implementer` | 依規劃報告撰寫/修改/修復程式碼 | sonnet | 規劃確認後進入實作階段 |
+| `architect` | 架構設計、資料模型、分層結構、ADR | opus | 涉及新模組、跨服務整合 |
+| `tdd-guide` | TDD 引導、測試案例先行、驗收標準 | sonnet | 規劃確認後、實作前 |
+| `build-error-resolver` | 錯誤日誌分析、根因定位、最小修復 | sonnet | CI 失敗、測試紅燈 |
+| `e2e-runner` | E2E 測試腳本生成、覆蓋矩陣 | sonnet | 功能完成、驗收前 |
 
-### 既有 agents（已安裝於 ~/.claude/agents/）
+### 審查團隊（Wave 1 + Wave 2）
+
+| Agent | 審查維度 | 權重 | Model | 波次 |
+|-------|---------|------|-------|------|
+| `style-reviewer` | 程式碼品質 + 編碼規範 | 20% + 15% = 35% | **haiku** | Wave 1（平行） |
+| `security-reviewer` | 安全性（OWASP Top 10） | 15% | **sonnet** | Wave 1（平行） |
+| `perf-test-reviewer` | 效能 + 可測試性 | 5% + 5% = 10% | **haiku** | Wave 1（平行） |
+| `review-lead` | SOLID + 功能正確性 + **交叉比對合併** | 25% + 15% = 40% | **opus** | Wave 2（接續） |
+
+**交叉比對**：review-lead 在 Wave 2 讀取 3 份 Wave 1 報告，發現跨維度複合問題時升級嚴重度（如：style 發現方法過長 + perf-test 發現無測試 → 🔴 升級）。
+
+### 輔助 agents
 
 | Agent | 職責 | Model | 對應指令 |
 |-------|------|-------|---------|
-| `code-reviewer` | 結構化程式碼審查，與 master diff，產出評分報告 | opus | `/code-review` |
-| `critical-analyst` | 多維度批判分析技術提案、架構決策 | opus | `/critique` |
-| `planning-specialist` | 需求→技術規格（Gap Analysis / Implementation Plan） | sonnet | `/plan` |
-| `prompt-optimizer` | 提示詞結構化、專案上下文注入 | sonnet | `/prompt-optimize` |
+| `critical-analyst` | 多維度批判分析技術提案、架構決策 | inherit | `/critique` |
+| `planning-specialist` | 需求→技術規格（Gap Analysis / Implementation Plan） | inherit | `/plan` |
+| `prompt-optimizer` | 提示詞結構化、專案上下文注入 | inherit | `/prompt-optimize` |
 
-### 新舊 agents 分工說明
+### agents 分工說明
 
 | 場景 | 使用 | 不使用 | 原因 |
 |------|------|--------|------|
@@ -152,9 +168,8 @@ flowchart TD
 | 技術規格細化 | `planning-specialist` | `planner` | planning-specialist 專注技術規格產出 |
 | 架構方案設計 | `architect` | `critical-analyst` | architect 做前期設計；critical-analyst 做事後批判 |
 | 架構方案評審 | `critical-analyst` | `architect` | critical-analyst 批判已有方案的邏輯健全性 |
-| 一般程式碼審查 | `code-reviewer` | `security-reviewer` | code-reviewer 涵蓋 SOLID、品質、基礎安全 |
-| 深度安全審查 | `security-reviewer` | `code-reviewer` | security-reviewer 專注 OWASP、威脅建模、攻擊場景 |
-| 程式碼實作 | `implementer` | 主 agent | 主 agent 不直接寫程式碼，委派 implementer 執行 |
+| 程式碼審查 | 審查團隊 4 人 | 單一 reviewer | 多角度 + 交叉比對，品質更高、成本更低 |
+| 程式碼實作 | `implementer` | 主 agent | 主 agent 不直接寫程式碼 |
 | 審查後修復 | `implementer` | 主 agent | 使用者決定修復項目後，委派 implementer 修復 |
 
 ---
@@ -163,9 +178,9 @@ flowchart TD
 
 | 情境 | 模型 | 理由 |
 |------|------|------|
-| 日常功能開發、錯誤修復、E2E 生成、TDD 引導、需求拆解 | `sonnet` | 效能與成本的最佳平衡點 |
-| 架構設計、程式碼審查、資安審查、批判分析 | `opus` | 需要深度推理能力 |
-| 瑣碎資訊整理、格式轉換、簡單問答 | `haiku` | 最低成本，適合輔助性工作 |
+| 日常功能開發、錯誤修復、E2E 生成、TDD 引導、需求拆解、安全審查 | `sonnet` | 效能與成本的最佳平衡點 |
+| 架構設計、審查主審（SOLID + 交叉比對）、批判分析 | `opus` | 需要深度推理能力 |
+| 程式碼風格審查、效能/測試覆蓋審查、瑣碎資訊整理 | `haiku` | 最低成本，適合機械性檢查 |
 
 ### SubAgent 統一輸出規範
 
@@ -177,8 +192,10 @@ flowchart TD
 | `architect` | `/tmp/architecture-design-latest.md` | 架構設計文件 |
 | `implementer` | `/tmp/implementation-latest.md` | 實作摘要 |
 | `tdd-guide` | 直接寫入專案 `tests/` 目錄 | 測試檔案 |
-| `code-reviewer` | `/tmp/code-review-latest.md` | 審查報告（含版本記錄） |
-| `security-reviewer` | `/tmp/security-review-latest.md` | 資安報告（含版本記錄） |
+| `style-reviewer` | `/tmp/review-style-latest.md` | Wave 1：品質+風格報告 |
+| `security-reviewer` | `/tmp/review-security-latest.md` | Wave 1：安全報告 |
+| `perf-test-reviewer` | `/tmp/review-perf-test-latest.md` | Wave 1：效能+測試報告 |
+| `review-lead` | `/tmp/code-review-latest.md` | Wave 2：最終合併報告（含版本記錄） |
 | `build-error-resolver` | 對話內直接回報 | 修復報告 |
 | `e2e-runner` | 直接寫入專案 `tests/` 目錄 | E2E 測試檔案 |
 | `critical-analyst` | `/tmp/critical-analysis-latest.md` | 批判分析報告 |
