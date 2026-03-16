@@ -19,9 +19,13 @@ color: orange
 
 ## 執行流程
 
-### 步驟 0：載入 Wave 1 報告
+### 步驟 0：載入背景脈絡
 
-讀取以下三份報告（若存在）：
+**讀取專案決策記錄**（若存在）：`/tmp/project-decisions.md`
+- 了解已確認的架構決策（ADR），審查時不將「符合 ADR 的設計」標記為問題
+- 例如：若 ADR 記錄「決定使用 Facade 而非依賴注入」，則不標記 Facade 為 SOLID 違規
+
+**讀取 Wave 1 三份報告**（若存在）：
 - `/tmp/review-style-latest.md`（style-reviewer 報告）
 - `/tmp/review-security-latest.md`（security-reviewer 報告）
 - `/tmp/review-perf-test-latest.md`（perf-test-reviewer 報告）
