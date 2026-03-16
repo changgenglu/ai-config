@@ -1,0 +1,11 @@
+{
+  "skill_name": "qa-tester",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "我們的 Laravel 專案有一個下單 API (POST /api/orders)，需要驗證：有登入、商品存在、庫存足夠、扣款成功才能下單。請幫我設計測試策略和寫 PHPUnit 測試案例。",
+      "expected_output": "應涵蓋正常流程測試（AAA pattern）、邊界條件（庫存剛好為 0）、異常情況（扣款失敗）、授權測試（未登入），使用 Mock 隔離外部付款服務。",
+      "files": []
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "skill_name": "laravel-coding-standard",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "請幫我 Review 這段 Controller 程式碼是否符合團隊規範：\n```php\npublic function getUser(Request $request) {\n    $user_data = User::where('email', $request->email)->first();\n    $request->validate(['email' => 'required|email']);\n    return response()->json($user_data);\n}\n```",
+      "expected_output": "應指出：變數應為 camelCase ($userData)、Validation 應使用陣列格式而非管道符、驗證應在查詢前執行、業務邏輯應移至 Service 層、方法名應以動詞開頭。",
+      "files": []
+    }
+  ]
+}

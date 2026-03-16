@@ -1,0 +1,11 @@
+{
+  "skill_name": "nestjs-expert",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "我在 NestJS 專案裡的 UserController 直接注入了 UserRepository 來查詢資料，這樣有什麼問題？應該怎麼改？",
+      "expected_output": "應指出違反分層架構原則（Controller 不應直接存取 Repository），解釋原因（關注點分離、可測試性），並建議透過 UserService 中介。",
+      "files": []
+    }
+  ]
+}

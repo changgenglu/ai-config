@@ -1,0 +1,11 @@
+{
+  "skill_name": "laravel-expert",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "我們的專案從 Laravel 9 升級到 Laravel 11，Middleware 註冊方式好像改了，之前寫在 app/Http/Kernel.php 的東西要搬去哪裡？請給我具體範例。",
+      "expected_output": "應說明 Laravel 11 移除了 Kernel.php，middleware 改在 bootstrap/app.php 中使用 withMiddleware() 註冊，並提供 before/after 範例。",
+      "files": []
+    }
+  ]
+}

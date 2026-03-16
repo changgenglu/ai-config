@@ -1,0 +1,11 @@
+{
+  "skill_name": "prompt-engineer",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "請在此輸入您的測試提問 (Prompt)。",
+      "expected_output": "請在此輸入您期望 AI 回覆的行為或結果。",
+      "files": []
+    }
+  ]
+}

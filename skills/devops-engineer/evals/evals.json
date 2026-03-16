@@ -1,0 +1,11 @@
+{
+  "skill_name": "devops-engineer",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "我們的 Laravel 專案目前是手動 SSH 部署到一台 Ubuntu 伺服器，想改成 CI/CD 自動部署。用 GitHub Actions，部署目標是同一台伺服器。請設計 pipeline。",
+      "expected_output": "應提供完整的 GitHub Actions YAML 設定，包含 build、test、deploy 階段，使用 SSH deploy key，並考慮零停機部署策略 (如 symlink 切換)。",
+      "files": []
+    }
+  ]
+}

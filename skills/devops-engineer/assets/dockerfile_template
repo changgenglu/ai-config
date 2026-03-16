@@ -1,0 +1,114 @@
+# ============================================
+# 多階段建構 Dockerfile (Laravel/PHP)
+# ============================================
+# 階段說明:
+#   1. composer - 安裝 PHP 依賴
+#   2. frontend - 建置前端資源 (可選)
+#   3. production - 最終生產映像
+# ============================================
+
+# ============================================
+# 階段 1: Composer 依賴安裝
+# ============================================
+FROM composer:2 AS composer
+
+WORKDIR /app
+
+# 僅複製依賴定義檔以利用快取
+COPY composer.json composer.lock ./
+
+# 安裝生產依賴 (不含 dev)
+RUN composer install \
+    --no-dev \
+    --no-scripts \
+    --no-autoloader \
+    --prefer-dist \
+    --no-interaction
+
+# 複製剩餘檔案並產生 autoload
+COPY . .
+RUN composer dump-autoload --optimize --classmap-authoritative
+
+# ============================================
+# 階段 2: 前端資源建置 (可選)
+# ============================================
+FROM node:20-alpine AS frontend
+
+WORKDIR /app
+
+# 複製前端依賴定義
+COPY package*.json ./
+
+# 安裝依賴
+RUN npm ci --only=production
+
+# 複製前端原始碼
+COPY resources/ resources/
+COPY vite.config.js ./
+
+# 建置生產資源
+RUN npm run build
+
+# ============================================
+# 階段 3: 生產映像
+# ============================================
+FROM php:8.3-fpm-alpine AS production
+
+WORKDIR /var/www/html
+
+# 安裝系統依賴與 PHP 擴展
+RUN apk add --no-cache \
+        libpng-dev \
+        libjpeg-turbo-dev \
+        freetype-dev \
+        libzip-dev \
+        icu-dev \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install -j$(nproc) \
+        pdo_mysql \
+        gd \
+        opcache \
+        zip \
+        intl \
+        bcmath \
+    && rm -rf /var/cache/apk/*
+
+# 安裝 Redis 擴展
+RUN apk add --no-cache --virtual .build-deps $PHPIZE_DEPS \
+    && pecl install redis \
+    && docker-php-ext-enable redis \
+    && apk del .build-deps
+
+# 複製 PHP 設定
+COPY docker/php/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
+COPY docker/php/php.ini /usr/local/etc/php/conf.d/custom.ini
+
+# 從 composer 階段複製依賴
+COPY --from=composer /app/vendor ./vendor
+
+# 從 frontend 階段複製建置結果 (可選)
+# COPY --from=frontend /app/public/build ./public/build
+
+# 複製應用程式碼
+COPY . .
+
+# 設定權限
+RUN chown -R www-data:www-data /var/www/html \
+    && chmod -R 755 /var/www/html/storage \
+    && chmod -R 755 /var/www/html/bootstrap/cache
+
+# 快取 Laravel 設定
+RUN php artisan config:cache \
+    && php artisan route:cache \
+    && php artisan view:cache
+
+# 安全設定: 使用非 root 用戶
+USER www-data
+
+# 健康檢查
+HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
+    CMD php artisan health:check || exit 1
+
+EXPOSE 9000
+
+CMD ["php-fpm"]

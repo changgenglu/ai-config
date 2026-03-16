@@ -1,0 +1,11 @@
+{
+  "skill_name": "performance-analyst",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "我們的 Laravel API 某個端點回應時間從 100ms 忽然變成 3 秒，這個端點會查詢 users 表和關聯的 orders 表，用 foreach 迴圈處理每筆訂單的商品明細。請分析可能原因。",
+      "expected_output": "應識別 N+1 查詢問題（foreach 中存取關聯），建議使用 Eager Loading (with())，並提供 DB::enableQueryLog() 除錯方法。可能額外提到索引缺失與分頁處理。",
+      "files": []
+    }
+  ]
+}

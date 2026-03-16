@@ -1,0 +1,17 @@
+{
+  "skill_name": "code-mentor",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "我是剛進公司的菜鳥，前輩要我用 TypeScript 實作一個 Observer Pattern 來處理購物車的『商品加入事件』，可是我完全看不懂那是什麼。你可以像教小學生一樣教我嗎？",
+      "expected_output": "使用極度生活化的類比（例如：訂閱 YouTuber 或雜誌）解釋 Observer Pattern，提供 TypeScript 範例，並確保語氣有耐心（Level 1-2）。",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "這段扣到底是做什麼的，看攏無：`const x = a ? b : c().filter(k => k.id === 5)[0];`，幫我解讀一下。",
+      "expected_output": "嚴謹地拆解這段髒亂的三元運算子與魔術數字 (Magic Number)，並畫出 ASCII 流程圖，最後提供易讀性更高的重構建議給初學者。",
+      "files": []
+    }
+  ]
+}

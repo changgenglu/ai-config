@@ -1,0 +1,11 @@
+{
+  "skill_name": "nestjs-module-generator",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "幫我建立一個 NestJS 的 game-record 模組，需要有 CRUD 端點，Entity 要有 game_id、user_id、bet_amount、payout、created_at 欄位。",
+      "expected_output": "應產出完整的模組結構（module, controller, service, repository, dto, entity），使用 kebab-case 目錄名、PascalCase 類別名，並提醒更新 AppModule imports。",
+      "files": []
+    }
+  ]
+}

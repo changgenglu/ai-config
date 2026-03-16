@@ -1,0 +1,11 @@
+{
+  "skill_name": "database-architect",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "我們的 MySQL 訂單表 orders 已經有 5000 萬筆資料，查詢越來越慢。目前有 user_id、status、created_at 欄位常被查詢。請評估分區策略與索引優化方案。",
+      "expected_output": "應建議水平分區策略（如依 created_at 做 Range Partitioning）、複合索引設計（考慮選擇性順序）、讀寫分離方案，並分析各方案的權衡。",
+      "files": []
+    }
+  ]
+}

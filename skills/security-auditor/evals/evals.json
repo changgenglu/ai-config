@@ -1,0 +1,11 @@
+{
+  "skill_name": "security-auditor",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "請幫我 Review 這段 Laravel 程式碼的安全性：\n```php\npublic function search(Request $request) {\n    $keyword = $request->input('q');\n    $users = DB::select(\"SELECT * FROM users WHERE name LIKE '%{$keyword}%'\");\n    return view('users.index', ['users' => $users, 'keyword' => $keyword]);\n}\n```",
+      "expected_output": "應識別 SQL Injection 風險（字串拼接查詢）和 XSS 風險（$keyword 直接輸出到 view），建議使用參數化查詢（Query Builder 或 Eloquent）和 Blade {{ }} 自動跳脫。嚴重度應標為「嚴重」。",
+      "files": []
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "skill_name": "api-designer",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "我們公司要做一個取得使用者訂單列表的 API，我打算開一個 POST /getOrderList，裡面傳 user_id，如果訂單空的就回傳 404，這樣好嗎？",
+      "expected_output": "嚴厲指正不符 RESTful 原則：取得資源應該用 GET `/users/{user_id}/orders`。列表為空應回傳 200 與空陣列 `[]`，404 僅用於該資源路徑不存在或無權限。",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "這個 API 以後大概會有五十萬筆資料，我需要做分頁機制，通常大家都怎麼設計 Response 格式的？",
+      "expected_output": "建議採用基於 Cursor 的分頁 (Cursor-based Pagination) 或結合 Cursor 與 Limit。展示包含 `data`, `meta` (包含 `next_cursor`, `has_more` 等) 的標準 JSON 格式。",
+      "files": []
+    }
+  ]
+}

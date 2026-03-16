@@ -1,0 +1,17 @@
+{
+  "skill_name": "auto-skill",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "我想要開一個新的專案，幫我用 React 寫一個 Todo List。順便問一下，我們之前有存過什麼好用的 Tailwind 設定嗎？",
+      "expected_output": "AI 應該要在背景維護緩存並抽取關鍵詞 [React, Todo, Tailwind]。因為使用者提到了先前的設定，AI 應主動去讀取 `knowledge-base/_index.json` 或 `experience/_index.json`，並告知『我已參考過往經驗/知識庫』。",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "太棒了，這個 Bug 終於解除了，你的方法很有效！接下來沒有別的問題了，謝謝。",
+      "expected_output": "AI 必須偵測到『使用者表達滿意且任務結束』，並主動詢問：『這次我們解決了這個 Bug，為了下次能更快處理，我可以把這個經驗記錄到知識庫嗎？』",
+      "files": []
+    }
+  ]
+}

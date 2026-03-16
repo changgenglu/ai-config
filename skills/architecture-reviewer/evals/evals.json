@@ -1,0 +1,17 @@
+{
+  "skill_name": "architecture-reviewer",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "我的同事把 OrderController 寫了 2000 行，裡面有算折扣、檢查黑名單使用者、發送簡訊還有撈取歷史訂單。他覺得這樣很讚，因為所有邏輯都在一個檔案找得到。你從 SOLID 的角度幫我嗆爆他。",
+      "expected_output": "精準指出這嚴厲違反了 SRP (單一職責原則) 與多層架構。明確列出 Controller 的職責限制，並建議將邏輯拆分至 OrderService, NotificationService 等。",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "我們現在想要導入 DDD，所以我打算讓我的 `UserEntity` 直接 extends Laravel 的 `Model` 這樣操作 DB 最快。這個觀念對嗎？",
+      "expected_output": "強烈拒絕。點出 Entity 不能依賴於框架 (Framework) 的 Infrastructure 層。向使用者解釋 Clean Architecture 中最核心的「Domain 層純粹性」概念。",
+      "files": []
+    }
+  ]
+}

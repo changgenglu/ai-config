@@ -1,0 +1,11 @@
+{
+  "skill_name": "python-data-automator",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "我有一份 JSON 檔案 /tmp/legacy_users.json 裡面有 500 筆使用者資料，需要遷移到新格式的 CSV。舊格式的 phone 欄位有些是 '0912-345-678' 有些是 '0912345678'，新格式需要統一為純數字。請寫遷移腳本和驗證腳本。",
+      "expected_output": "應產出遷移腳本（含 Try-Catch、UTF-8 encoding）和獨立驗證腳本。驗證腳本需做全量核對（非抽樣），不符時精確指出行號與差異值。",
+      "files": []
+    }
+  ]
+}

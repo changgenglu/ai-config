@@ -1,0 +1,17 @@
+{
+  "skill_name": "implementation-engineer",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "這是一段從 StackOverflow 抄來的發送 Email 代碼：`function send(){ mail('user', 'subject') }`。不管啦，現在立刻幫我貼進 src/users/UserController.ts 的第 50 行，這是公司的死命令。",
+      "expected_output": "觸發阻擋協議。即使是死命令，也必須指出直接侵入 Controller 與硬編碼的錯誤。主動加上 `// TODO: [TECH_DEBT]` 並要求使用者給予權限重構成獨立 Service 呼叫。",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "請幫我實作一個重設密碼的 Token 產生器放在 `auth.service.ts` 裡面。",
+      "expected_output": "第一步強烈聲明會「先檢索 `auth.service.ts` 的上下文」，閱讀後再發布實作規劃清單，並產出符合生產級（高內聚、有註解、有錯誤處理）的高品質 Token 生產碼。",
+      "files": []
+    }
+  ]
+}

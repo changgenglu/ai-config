@@ -1,0 +1,11 @@
+{
+  "skill_name": "ascii-diagram-artist",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "我們的系統有三層架構：前端 (React)、API Gateway (Nginx)、後端 (Laravel + Redis + MySQL)。請用 ASCII 圖畫出架構圖，需要包含中文標籤。",
+      "expected_output": "產出的 ASCII 圖應使用 box-drawing 字元，中英文混排時對齊正確（考慮 CJK 寬度），層次分明且在終端機中顯示不會錯位。",
+      "files": []
+    }
+  ]
+}

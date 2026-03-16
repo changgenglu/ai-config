@@ -1,0 +1,11 @@
+{
+  "skill_name": "excel-expert",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "我有一個 Excel 檔案 /tmp/sales_report.xlsx，裡面有三個工作表：'Q1 營收'、'Q2 營收'、'彙總'。請幫我讀取並轉換成 JSON 格式，需要處理可能有空白工作表的情況。",
+      "expected_output": "應先檢查 pandas/openpyxl 是否安裝，逐表讀取並處理 NaN 值，對空白工作表標記為無資料而非跳過，保持原始欄位順序輸出 JSON。",
+      "files": []
+    }
+  ]
+}

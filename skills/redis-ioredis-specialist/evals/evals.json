@@ -1,0 +1,11 @@
+{
+  "skill_name": "redis-ioredis-specialist",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "我在 NestJS 專案中用 ioredis 做快取，但常常遇到快取穿透的問題——有些不存在的 user ID 會不斷查詢資料庫。目前的 getUser 方法是：先查 Redis，miss 就查 DB 然後寫入 Redis。請幫我改善。",
+      "expected_output": "應建議快取空值（短 TTL，如 5 分鐘），說明布隆過濾器作為進階方案，提供改進後的 Cache-Aside 程式碼，並確保 TTL 設定與快取鍵命名規範。",
+      "files": []
+    }
+  ]
+}

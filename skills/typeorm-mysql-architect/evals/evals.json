@@ -1,0 +1,11 @@
+{
+  "skill_name": "typeorm-mysql-architect",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "我在 NestJS 專案中有 User 和 Order 兩個 Entity，一個 User 可以有多筆 Order。目前列表頁載入很慢，console 顯示每次都產生 N+1 查詢。請幫我設計正確的 Entity 關聯和 Repository 查詢。",
+      "expected_output": "應提供 @OneToMany/@ManyToOne 關聯設定、使用 relations 或 QueryBuilder 的 leftJoinAndSelect 解決 N+1，並建議分頁查詢。",
+      "files": []
+    }
+  ]
+}

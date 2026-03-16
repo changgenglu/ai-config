@@ -1,0 +1,11 @@
+{
+  "skill_name": "tcp-websocket-specialist",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "我在 NestJS 專案中需要實作一個 WebSocket Gateway，讓後台管理員可以即時收到新訂單通知。當 HTTP API 收到新訂單時，要推播給所有在 'admin-room' 的 WebSocket 客戶端。請設計這個跨協定流程。",
+      "expected_output": "應提供 WebSocket Gateway（含 handleConnection 認證）、Controller 透過注入 Gateway 呼叫 server.to('admin-room').emit() 的設計，並說明跨協定資料流。",
+      "files": []
+    }
+  ]
+}

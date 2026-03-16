@@ -1,0 +1,17 @@
+{
+  "skill_name": "markdown-stylist-tw",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "幫我寫一份 Redis 快取策略的技術文件，需要包含程式碼範例和表格比較，用繁體中文撰寫。",
+      "expected_output": "產出的 Markdown 應全部使用 `-` 作為無序列表符號，標題與內容之間有空行，程式碼區塊前後有空行且標註語言，中英文之間有空格。",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "把以下英文技術筆記翻譯成繁體中文的 Markdown 格式：'## Setup\n- Install Redis 7.2\n- Configure maxmemory-policy allkeys-lru\n```bash\nredis-cli CONFIG SET maxmemory-policy allkeys-lru\n```'",
+      "expected_output": "翻譯後的文件應遵循中英混排空格規則（如 'Redis 7.2' 而非 'Redis7.2'），程式碼區塊與文字之間有空行，使用全形標點符號。",
+      "files": []
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "skill_name": "mermaid-diagram",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "幫我用 Mermaid 畫一個序列圖，描述遊戲客戶端下注流程：客戶端 → Puppy 伺服器 (驗證 token、檢查餘額) → 錢包服務 (扣款) → 回傳餘額。如果餘額不足要有分支。",
+      "expected_output": "產出的 Mermaid 序列圖應避免使用 <br/>、<>、Emoji 等 GitLab 8.9.x 不支援的語法。條件分支使用 alt/else。participant 別名可包含中文。",
+      "files": []
+    }
+  ]
+}

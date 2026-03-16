@@ -1,0 +1,11 @@
+{
+  "skill_name": "business-analyst",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "我們公司想從線下實體店轉型為線上電商平台，目前有 50 家門市、200 位員工。老闆希望半年內上線，請幫我做需求分析。",
+      "expected_output": "產出應包含 AS-IS/TO-BE 流程分析、利害關係人識別、KPI 定義（使用 SMART 原則）、風險評估，以及分階段的轉型建議。",
+      "files": []
+    }
+  ]
+}

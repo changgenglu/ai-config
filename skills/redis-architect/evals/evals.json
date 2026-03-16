@@ -1,0 +1,11 @@
+{
+  "skill_name": "redis-architect",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "我們打算在 Laravel 專案中為所有用戶資料加上 Redis 快取，用永不過期的方式存放，這樣查詢最快。請評估這個策略有什麼問題。",
+      "expected_output": "應指出缺少 TTL 導致記憶體無限膨脹的風險，建議使用 Cache-Aside 模式搭配合理 TTL，提及快取失效策略（主動失效 vs TTL 過期），並警告快取穿透防護需求。",
+      "files": []
+    }
+  ]
+}
