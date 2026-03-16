@@ -26,64 +26,133 @@ ai-config/
 
 ---
 
-## AI 工作流程總覽
+## 開發工作流程（完整生命週期）
 
 主 agent 永遠只負責**路由**（判斷委派給誰），不直接執行任何領域工作。
 
+### 流程總覽
+
 ```mermaid
 flowchart TD
-    U[使用者需求] --> Q1{需求是否清晰完整？}
-    Q1 -- 否 --> P[planner\n拆解需求藍圖]
-    Q1 -- 是 --> Q2{涉及新架構 / 模組設計？}
-    P --> Q2
-    Q2 -- 是 --> A[architect\n設計系統架構]
-    Q2 -- 否 --> Q3{需要先寫測試？}
-    A --> Q3
-    Q3 -- 是 --> T[tdd-guide\n測試先行]
-    Q3 -- 否 --> DEV[開發實作]
-    T --> DEV
-    DEV --> Q4{需要審查？}
-    Q4 -- 是（一般審查） --> CR[code-reviewer\n審查品質]
-    Q4 -- 是（涉及認證/外部輸入） --> SR[security-reviewer\n找 OWASP 漏洞]
-    Q4 -- 否 --> Q5{CI / 測試失敗？}
-    CR --> Q5
-    SR --> Q5
-    Q5 -- 是 --> BE[build-error-resolver\n修錯誤]
-    Q5 -- 否 --> Q6{需要 E2E 測試？}
-    BE --> Q6
-    Q6 -- 是 --> E2E[e2e-runner\n生成 E2E 測試]
-    Q6 -- 否 --> DONE[完成]
+    U[使用者提出需求] --> CONFIRM[確認需求細節\n使用 superpowers skill]
+    CONFIRM --> PLAN[委派 @planner\n產出規劃報告 v1.0]
+    PLAN --> DISCUSS{使用者確認規劃？}
+    DISCUSS -- 需要修改 --> REVISE[更新規劃報告\n遞增版本]
+    REVISE --> DISCUSS
+    DISCUSS -- 確認 OK --> ARCH{涉及新架構？}
+    ARCH -- 是 --> DESIGN[委派 @architect\n產出架構設計]
+    DESIGN --> TDD_Q{需要 TDD？}
+    ARCH -- 否 --> TDD_Q
+    TDD_Q -- 是 --> TDD[委派 @tdd-guide\n建立測試先行]
+    TDD_Q -- 否 --> IMPL[開始實作\n主 agent 執行]
+    TDD --> IMPL
+    IMPL --> TEST{測試/建置是否通過？}
+    TEST -- 失敗 --> FIX[委派 @build-error-resolver\n修復錯誤]
+    FIX --> TEST
+    TEST -- 通過 --> REVIEW[委派 @code-reviewer\n產出審查報告 v1.0]
+    REVIEW --> SEC_Q{涉及安全敏感？}
+    SEC_Q -- 是 --> SEC[委派 @security-reviewer\n產出資安報告]
+    SEC_Q -- 否 --> USER_REVIEW{使用者審查報告}
+    SEC --> USER_REVIEW
+    USER_REVIEW -- 需要修復 --> HOTFIX[修復指定問題]
+    HOTFIX --> RE_REVIEW[更新審查報告\n遞增版本]
+    RE_REVIEW --> USER_REVIEW
+    USER_REVIEW -- 確認通過 --> E2E_Q{需要 E2E？}
+    E2E_Q -- 是 --> E2E[委派 @e2e-runner\n生成 E2E 測試]
+    E2E_Q -- 否 --> DONE[完成]
     E2E --> DONE
 ```
 
-### 主 Agent 委派限制
+### 三個階段與版本化報告
+
+#### 階段一：規劃與討論（程式碼不動）
+
+1. 使用者提出需求
+2. 主 agent 使用 `superpowers` skill 確認需求細節
+3. 委派 **@planner** 產出規劃報告（`/tmp/planning-report-latest.md`）
+4. 使用者與 AI 反覆討論，每次修改遞增版本號（v1.0 → v1.1 → v2.0...）
+5. **使用者明確說「開始實作」後，才進入下一階段**
+
+> 若涉及架構決策，中途委派 **@architect** 產出架構設計文件，整合回規劃報告。
+> 若需技術規格細化，委派 **@planning-specialist**（既有代理）產出技術規格。
+
+#### 階段二：實作（依據已確認的規劃）
+
+1. 若採用 TDD，先委派 **@tdd-guide** 建立測試
+2. 主 agent 依規劃報告逐步實作
+3. 測試/建置失敗時，委派 **@build-error-resolver** 定位根因與修復
+4. 功能完成時，委派 **@e2e-runner** 建立 E2E 測試（若需要）
+
+#### 階段三：審查與修復（程式碼凍結）
+
+1. 委派 **@code-reviewer** 產出審查報告（`/tmp/code-review-latest.md`）
+2. 若涉及安全敏感區域，同時委派 **@security-reviewer** 產出資安報告
+3. 使用者閱讀報告，**判斷哪些問題需要修復**
+4. 修復後更新審查報告版本（v1.0 → v1.1...）
+5. 反覆至使用者確認通過
+
+### 版本記錄規範
+
+所有規劃報告與審查報告都必須包含版本記錄表：
+
+```markdown
+## 版本記錄
+
+| 版本 | 更新時間 | 變更摘要 |
+|------|---------|---------|
+| v1.0 | 2026-03-16 14:00 | 初版規劃 |
+| v1.1 | 2026-03-16 15:30 | 根據討論調整：移除 X 功能、新增 Y 欄位 |
+| v2.0 | 2026-03-17 10:00 | 重大修訂：改採方案 B 架構 |
+```
+
+**版本號規則**：
+- `v1.0` → `v1.1`：小幅調整（措辭、補充、微調）
+- `v1.x` → `v2.0`：重大變更（架構改動、功能增刪、方案替換）
+
+---
+
+## 主 Agent 委派限制
 
 - 不得執行任何屬於 subAgent 職責範圍的工作
 - 同時啟動的 subAgent **不超過 2 個**（避免 context 爆炸）
 - 未收到 subAgent 完整輸出前，不啟動下一個委派
+- **規劃未經使用者確認前，禁止異動程式碼**
+- **審查報告中的修復項目，由使用者決定哪些需要修復**
 
 ---
 
 ## SubAgent 一覽表
 
-| Agent | 職責 | 不做 | Model |
-|-------|------|------|-------|
-| `planner` | 將模糊需求轉化為可執行任務清單與開發藍圖 | 不寫程式碼、不做架構決策 | sonnet |
-| `architect` | 設計架構、資料模型、分層結構、介面契約 | 不寫實作程式碼、不執行測試 | opus |
-| `tdd-guide` | 先寫測試案例，定義驗收標準 | 不寫業務邏輯、不修改通過測試後的原始碼 | sonnet |
-| `code-reviewer` | 審查 git diff，依 SOLID、效能、命名等維度評分 | 不修改被審查的程式碼 | opus |
-| `security-reviewer` | 專注 OWASP Top 10、認證授權缺陷、敏感資料暴露 | 不做一般程式碼品質審查 | opus |
-| `build-error-resolver` | 讀取錯誤日誌，定位根因，提出最小範圍修復方案 | 不重構無關程式碼、不添加新功能 | sonnet |
-| `e2e-runner` | 根據功能規格生成 E2E 測試腳本 | 不測試單元層邏輯、不修改業務程式碼 | sonnet |
+### 新增 agents（開發流程團隊）
 
-現有 agents（已內建）：
+| Agent | 職責 | 不做 | Model | 觸發時機 |
+|-------|------|------|-------|---------|
+| `planner` | 需求拆解、規劃報告、版本化討論管理 | 不寫程式碼、不做架構決策 | sonnet | 新功能需求、Epic 級工作 |
+| `architect` | 架構設計、資料模型、分層結構、ADR | 不寫實作程式碼、不執行測試 | opus | 涉及新模組、跨服務整合 |
+| `tdd-guide` | TDD 引導、測試案例先行、驗收標準 | 不寫業務邏輯 | sonnet | 規劃確認後、實作前 |
+| `security-reviewer` | OWASP Top 10、威脅建模、安全架構 | 不做一般品質審查 | opus | 涉及認證/授權/金流/外部輸入 |
+| `build-error-resolver` | 錯誤日誌分析、根因定位、最小修復 | 不重構、不添加功能 | sonnet | CI 失敗、測試紅燈 |
+| `e2e-runner` | E2E 測試腳本生成、覆蓋矩陣 | 不測試單元邏輯 | sonnet | 功能完成、驗收前 |
 
-| Agent | 職責 |
-|-------|------|
-| `code-reviewer` | 結構化程式碼審查，與 master 分支 diff，產出評分報告 |
-| `critical-analyst` | 多維度批判分析技術提案、架構決策、程式碼實作 |
-| `planning-specialist` | 將功能需求轉換為可執行技術規格文件 |
-| `prompt-optimizer` | 優化、結構化並注入專案上下文至提示詞 |
+### 既有 agents（已安裝於 ~/.claude/agents/）
+
+| Agent | 職責 | Model | 對應指令 |
+|-------|------|-------|---------|
+| `code-reviewer` | 結構化程式碼審查，與 master diff，產出評分報告 | opus | `/code-review` |
+| `critical-analyst` | 多維度批判分析技術提案、架構決策 | opus | `/critique` |
+| `planning-specialist` | 需求→技術規格（Gap Analysis / Implementation Plan） | sonnet | `/plan` |
+| `prompt-optimizer` | 提示詞結構化、專案上下文注入 | sonnet | `/prompt-optimize` |
+
+### 新舊 agents 分工說明
+
+| 場景 | 使用 | 不使用 | 原因 |
+|------|------|--------|------|
+| 新功能需求討論 | `planner` | `planning-specialist` | planner 管理需求討論流程與版本化報告 |
+| 技術規格細化 | `planning-specialist` | `planner` | planning-specialist 專注技術規格產出 |
+| 架構方案設計 | `architect` | `critical-analyst` | architect 做前期設計；critical-analyst 做事後批判 |
+| 架構方案評審 | `critical-analyst` | `architect` | critical-analyst 批判已有方案的邏輯健全性 |
+| 一般程式碼審查 | `code-reviewer` | `security-reviewer` | code-reviewer 涵蓋 SOLID、品質、基礎安全 |
+| 深度安全審查 | `security-reviewer` | `code-reviewer` | security-reviewer 專注 OWASP、威脅建模、攻擊場景 |
 
 ---
 
@@ -92,7 +161,7 @@ flowchart TD
 | 情境 | 模型 | 理由 |
 |------|------|------|
 | 日常功能開發、錯誤修復、E2E 生成、TDD 引導、需求拆解 | `sonnet` | 效能與成本的最佳平衡點 |
-| 架構設計、程式碼審查、資安審查 | `opus` | 需要深度推理能力 |
+| 架構設計、程式碼審查、資安審查、批判分析 | `opus` | 需要深度推理能力 |
 | 瑣碎資訊整理、格式轉換、簡單問答 | `haiku` | 最低成本，適合輔助性工作 |
 
 ### `/compact` 使用規則（強制）
