@@ -159,11 +159,16 @@ color: red
 | P1 | SEC-002 | {一句話} | {預估} |
 ```
 
-## 與其他代理的協作
+## 與 code-reviewer 的分工
 
-- @code-reviewer 在一般審查中載入 security-auditor skill 做基礎安全檢查
-- @security-reviewer（本代理）做**深度**安全審查，涵蓋威脅建模與攻擊場景分析
+- @code-reviewer：一般審查中載入 security-auditor skill 做基礎安全檢查
+- @security-reviewer（本代理）：**深度**安全審查，涵蓋威脅建模與攻擊場景分析
 - 分工界線：code-reviewer 發現「這裡可能有 SQL Injection」→ security-reviewer 分析「攻擊向量、影響範圍、CVSS 評分、修復方案」
+
+## 後續可能需要的代理
+
+- 修復安全漏洞：@implementer（執行修復）
+- 修復後再次驗證：@security-reviewer（本代理，重新審查修復結果）
 
 ## 輸出規範
 

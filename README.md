@@ -44,7 +44,7 @@ flowchart TD
     DESIGN --> TDD_Q{需要 TDD？}
     ARCH -- 否 --> TDD_Q
     TDD_Q -- 是 --> TDD[委派 @tdd-guide\n建立測試先行]
-    TDD_Q -- 否 --> IMPL[開始實作\n主 agent 執行]
+    TDD_Q -- 否 --> IMPL[委派 @implementer\n依規劃逐步實作]
     TDD --> IMPL
     IMPL --> TEST{測試/建置是否通過？}
     TEST -- 失敗 --> FIX[委派 @build-error-resolver\n修復錯誤]
@@ -54,7 +54,7 @@ flowchart TD
     SEC_Q -- 是 --> SEC[委派 @security-reviewer\n產出資安報告]
     SEC_Q -- 否 --> USER_REVIEW{使用者審查報告}
     SEC --> USER_REVIEW
-    USER_REVIEW -- 需要修復 --> HOTFIX[修復指定問題]
+    USER_REVIEW -- 需要修復 --> HOTFIX[委派 @implementer\n修復指定問題]
     HOTFIX --> RE_REVIEW[更新審查報告\n遞增版本]
     RE_REVIEW --> USER_REVIEW
     USER_REVIEW -- 確認通過 --> E2E_Q{需要 E2E？}
@@ -79,7 +79,7 @@ flowchart TD
 #### 階段二：實作（依據已確認的規劃）
 
 1. 若採用 TDD，先委派 **@tdd-guide** 建立測試
-2. 主 agent 依規劃報告逐步實作
+2. 委派 **@implementer** 依規劃報告逐步實作
 3. 測試/建置失敗時，委派 **@build-error-resolver** 定位根因與修復
 4. 功能完成時，委派 **@e2e-runner** 建立 E2E 測試（若需要）
 
@@ -114,7 +114,7 @@ flowchart TD
 ## 主 Agent 委派限制
 
 - 不得執行任何屬於 subAgent 職責範圍的工作
-- 同時啟動的 subAgent **不超過 2 個**（避免 context 爆炸）
+- 同時啟動的 subAgent **不超過 4 個**（避免 context 爆炸）
 - 未收到 subAgent 完整輸出前，不啟動下一個委派
 - **規劃未經使用者確認前，禁止異動程式碼**
 - **審查報告中的修復項目，由使用者決定哪些需要修復**
@@ -128,6 +128,7 @@ flowchart TD
 | Agent | 職責 | 不做 | Model | 觸發時機 |
 |-------|------|------|-------|---------|
 | `planner` | 需求拆解、規劃報告、版本化討論管理 | 不寫程式碼、不做架構決策 | sonnet | 新功能需求、Epic 級工作 |
+| `implementer` | 依規劃報告撰寫/修改/修復程式碼 | 不做規劃、不做審查、不自行決定方案 | sonnet | 規劃確認後進入實作階段 |
 | `architect` | 架構設計、資料模型、分層結構、ADR | 不寫實作程式碼、不執行測試 | opus | 涉及新模組、跨服務整合 |
 | `tdd-guide` | TDD 引導、測試案例先行、驗收標準 | 不寫業務邏輯 | sonnet | 規劃確認後、實作前 |
 | `security-reviewer` | OWASP Top 10、威脅建模、安全架構 | 不做一般品質審查 | opus | 涉及認證/授權/金流/外部輸入 |
@@ -153,6 +154,8 @@ flowchart TD
 | 架構方案評審 | `critical-analyst` | `architect` | critical-analyst 批判已有方案的邏輯健全性 |
 | 一般程式碼審查 | `code-reviewer` | `security-reviewer` | code-reviewer 涵蓋 SOLID、品質、基礎安全 |
 | 深度安全審查 | `security-reviewer` | `code-reviewer` | security-reviewer 專注 OWASP、威脅建模、攻擊場景 |
+| 程式碼實作 | `implementer` | 主 agent | 主 agent 不直接寫程式碼，委派 implementer 執行 |
+| 審查後修復 | `implementer` | 主 agent | 使用者決定修復項目後，委派 implementer 修復 |
 
 ---
 
@@ -163,6 +166,25 @@ flowchart TD
 | 日常功能開發、錯誤修復、E2E 生成、TDD 引導、需求拆解 | `sonnet` | 效能與成本的最佳平衡點 |
 | 架構設計、程式碼審查、資安審查、批判分析 | `opus` | 需要深度推理能力 |
 | 瑣碎資訊整理、格式轉換、簡單問答 | `haiku` | 最低成本，適合輔助性工作 |
+
+### SubAgent 統一輸出規範
+
+所有子代理的報告統一寫入 `/tmp/`，命名規則如下：
+
+| Agent | 輸出路徑 | 說明 |
+|-------|---------|------|
+| `planner` | `/tmp/planning-report-latest.md` | 規劃報告（含版本記錄） |
+| `architect` | `/tmp/architecture-design-latest.md` | 架構設計文件 |
+| `implementer` | `/tmp/implementation-latest.md` | 實作摘要 |
+| `tdd-guide` | 直接寫入專案 `tests/` 目錄 | 測試檔案 |
+| `code-reviewer` | `/tmp/code-review-latest.md` | 審查報告（含版本記錄） |
+| `security-reviewer` | `/tmp/security-review-latest.md` | 資安報告（含版本記錄） |
+| `build-error-resolver` | 對話內直接回報 | 修復報告 |
+| `e2e-runner` | 直接寫入專案 `tests/` 目錄 | E2E 測試檔案 |
+| `critical-analyst` | `/tmp/critical-analysis-latest.md` | 批判分析報告 |
+| `planning-specialist` | `/tmp/planning-latest.md` | 技術規格文件 |
+
+每個子代理在完成工作後，必須在輸出末尾附上「**後續可能需要的代理**」段落，列出建議的下一步（不指揮主 agent，僅供參考）。
 
 ### `/compact` 使用規則（強制）
 
