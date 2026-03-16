@@ -71,7 +71,9 @@
 2. **委派規劃：** 委派 **@planner** 產出規劃報告 → **⏸️ 回報使用者，等待確認**
 3. **委派架構（若需要）：** 委派 **@architect** 產出架構設計 → **⏸️ 回報使用者，等待確認**
 4. **委派測試（若 TDD）：** 委派 **@tdd-guide** 建立測試先行
-5. **委派實作：** 委派 **@implementer** 依規劃逐步實作
+5. **委派實作：** 依任務規模選擇模式：
+   - **大型功能**：Wave 1 **@foundation-implementer** → Wave 2 **@logic-implementer** + **@api-implementer**（平行）→ Wave 3 **@test-implementer**（可選）
+   - **小型修復**：直接委派 **@implementer**
 6. **委派錯誤修復（若失敗）：** 委派 **@build-error-resolver** 定位根因
 7. **委派審查（Wave 1 平行）：** 委派 **@style-reviewer** + **@security-reviewer** + **@perf-test-reviewer**
 8. **委派審查（Wave 2 合併）：** 委派 **@review-lead** 讀取 3 份報告 + 交叉比對 → **⏸️ 回報使用者，等待決定修復項目**

@@ -44,15 +44,22 @@ flowchart TD
     DESIGN --> TDD_Q{需要 TDD？}
     ARCH -- 否 --> TDD_Q
     TDD_Q -- 是 --> TDD[委派 @tdd-guide\n建立測試先行]
-    TDD_Q -- 否 --> IMPL[委派 @implementer\n依規劃逐步實作]
-    TDD --> IMPL
-    IMPL --> TEST{測試/建置是否通過？}
+    TDD_Q -- 否 --> IMPL_Q{大型功能？}
+    TDD --> IMPL_Q
+    IMPL_Q -- 是 --> IW1[實作 Wave 1\n@foundation-implementer haiku]
+    IW1 --> IW2[實作 Wave 2 平行\n@logic-implementer sonnet\n@api-implementer sonnet]
+    IW2 --> IW3_Q{需要補寫測試？}
+    IW3_Q -- 是 --> IW3[實作 Wave 3\n@test-implementer sonnet]
+    IW3_Q -- 否 --> TEST{測試/建置是否通過？}
+    IW3 --> TEST
+    IMPL_Q -- 否 --> IMPL_DIRECT[委派 @implementer\n直接實作]
+    IMPL_DIRECT --> TEST
     TEST -- 失敗 --> FIX[委派 @build-error-resolver\n修復錯誤]
     FIX --> TEST
     TEST -- 通過 --> W1[Wave 1：平行審查\n@style-reviewer haiku\n@security-reviewer sonnet\n@perf-test-reviewer haiku]
     W1 --> W2[Wave 2：主審合併\n@review-lead opus\n讀取 3 份報告 + 交叉比對]
     W2 --> USER_REVIEW{使用者審查報告}
-    USER_REVIEW -- 需要修復 --> HOTFIX[委派 @implementer\n修復指定問題]
+    USER_REVIEW -- 需要修復 --> HOTFIX[委派 @implementer\n修復指定問題\n模式 B 直接修復]
     HOTFIX --> RE_REVIEW[更新審查報告\n遞增版本]
     RE_REVIEW --> USER_REVIEW
     USER_REVIEW -- 確認通過 --> E2E_Q{需要 E2E？}
@@ -76,10 +83,29 @@ flowchart TD
 
 #### 階段二：實作（依據已確認的規劃）
 
+依任務規模選擇實作模式：
+
+**模式 A — 大型功能（Wave 分層實作）**：
+
 1. 若採用 TDD，先委派 **@tdd-guide** 建立測試
-2. 委派 **@implementer** 依規劃報告逐步實作
-3. 測試/建置失敗時，委派 **@build-error-resolver** 定位根因與修復
-4. 功能完成時，委派 **@e2e-runner** 建立 E2E 測試（若需要）
+2. **Wave 1**：委派 **@foundation-implementer**（haiku）建立 Migration、Model、Config、Route
+3. **Wave 2**：平行委派 **@logic-implementer**（sonnet）+ **@api-implementer**（sonnet）
+4. **Wave 3**（可選）：委派 **@test-implementer**（sonnet）為已完成程式碼補寫測試
+5. 測試/建置失敗時，委派 **@build-error-resolver** 定位根因與修復
+6. 功能完成時，委派 **@e2e-runner** 建立 E2E 測試（若需要）
+
+**模式 B — 小型修復（直接實作）**：
+
+1. 直接委派 **@implementer**（sonnet）執行修復或小功能
+2. 適用：審查後修復、bug fix、小幅功能調整
+
+**測試策略決策**（主 agent 依規劃報告判斷）：
+
+| 條件 | 委派 |
+|------|------|
+| 規劃指定 TDD | @tdd-guide（先）→ 實作團隊（後） |
+| 規劃指定需要測試但非 TDD | 實作團隊（先）→ @test-implementer（後） |
+| 規劃未要求測試 | 僅實作團隊 |
 
 #### 階段三：多角度審查與修復（程式碼凍結）
 
@@ -135,11 +161,20 @@ flowchart TD
 | Agent | 職責 | Model | 觸發時機 |
 |-------|------|-------|---------|
 | `planner` | 需求拆解、規劃報告、版本化討論管理 | sonnet | 新功能需求、Epic 級工作 |
-| `implementer` | 依規劃報告撰寫/修改/修復程式碼 | sonnet | 規劃確認後進入實作階段 |
 | `architect` | 架構設計、資料模型、分層結構、ADR | opus | 涉及新模組、跨服務整合 |
-| `tdd-guide` | TDD 引導、測試案例先行、驗收標準 | sonnet | 規劃確認後、實作前 |
+| `tdd-guide` | TDD 引導、測試案例先行、驗收標準 | sonnet | 規劃確認後、實作前（TDD 流程） |
 | `build-error-resolver` | 錯誤日誌分析、根因定位、最小修復 | sonnet | CI 失敗、測試紅燈 |
 | `e2e-runner` | E2E 測試腳本生成、覆蓋矩陣 | sonnet | 功能完成、驗收前 |
+
+### 實作團隊（Wave 分層）
+
+| Agent | 職責 | Model | 波次 |
+|-------|------|-------|------|
+| `implementer` | 小型修復/審查後修復（模式 B 直接實作） | **sonnet** | — |
+| `foundation-implementer` | Migration、Model/Entity、Config、Route | **haiku** | Wave 1 |
+| `logic-implementer` | Service、Repository、Action、Event、Job | **sonnet** | Wave 2（平行） |
+| `api-implementer` | Controller、Request、Resource、Middleware | **sonnet** | Wave 2（平行） |
+| `test-implementer` | 實作後補寫 Unit/Feature Test（可選） | **sonnet** | Wave 3（可選） |
 
 ### 審查團隊（Wave 1 + Wave 2）
 
@@ -169,8 +204,9 @@ flowchart TD
 | 架構方案設計 | `architect` | `critical-analyst` | architect 做前期設計；critical-analyst 做事後批判 |
 | 架構方案評審 | `critical-analyst` | `architect` | critical-analyst 批判已有方案的邏輯健全性 |
 | 程式碼審查 | 審查團隊 4 人 | 單一 reviewer | 多角度 + 交叉比對，品質更高、成本更低 |
-| 程式碼實作 | `implementer` | 主 agent | 主 agent 不直接寫程式碼 |
-| 審查後修復 | `implementer` | 主 agent | 使用者決定修復項目後，委派 implementer 修復 |
+| 大型功能實作 | 實作團隊 4 人（Wave 1→2→3） | `implementer` 單獨 | 分層平行實作，效率更高 |
+| 小型修復/審查後修復 | `implementer`（模式 B） | 實作團隊 | 不需要拆分的小範圍修改 |
+| 實作後補測試（非 TDD） | `test-implementer` | `tdd-guide` | tdd-guide 是測試先行，test-implementer 是實作後補寫 |
 
 ---
 
@@ -178,9 +214,9 @@ flowchart TD
 
 | 情境 | 模型 | 理由 |
 |------|------|------|
-| 日常功能開發、錯誤修復、E2E 生成、TDD 引導、需求拆解、安全審查 | `sonnet` | 效能與成本的最佳平衡點 |
+| 邏輯層/接口層實作、測試補寫、錯誤修復、E2E 生成、TDD 引導、需求拆解、安全審查 | `sonnet` | 效能與成本的最佳平衡點 |
 | 架構設計、審查主審（SOLID + 交叉比對）、批判分析 | `opus` | 需要深度推理能力 |
-| 程式碼風格審查、效能/測試覆蓋審查、瑣碎資訊整理 | `haiku` | 最低成本，適合機械性檢查 |
+| 基礎層實作、程式碼風格審查、效能/測試覆蓋審查、瑣碎資訊整理 | `haiku` | 最低成本，適合機械性檢查 |
 
 ### SubAgent 統一輸出規範
 
@@ -190,7 +226,11 @@ flowchart TD
 |-------|---------|------|
 | `planner` | `/tmp/planning-report-latest.md` | 規劃報告（含版本記錄） |
 | `architect` | `/tmp/architecture-design-latest.md` | 架構設計文件 |
-| `implementer` | `/tmp/implementation-latest.md` | 實作摘要 |
+| `implementer` | `/tmp/implementation-latest.md` | 實作摘要（模式 B） |
+| `foundation-implementer` | `/tmp/impl-foundation-latest.md` | Wave 1 基礎層摘要 |
+| `logic-implementer` | `/tmp/impl-logic-latest.md` | Wave 2 邏輯層摘要 |
+| `api-implementer` | `/tmp/impl-api-latest.md` | Wave 2 接口層摘要 |
+| `test-implementer` | `/tmp/impl-test-latest.md` | Wave 3 測試摘要 |
 | `tdd-guide` | 直接寫入專案 `tests/` 目錄 | 測試檔案 |
 | `style-reviewer` | `/tmp/review-style-latest.md` | Wave 1：品質+風格報告 |
 | `security-reviewer` | `/tmp/review-security-latest.md` | Wave 1：安全報告 |
