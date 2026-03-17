@@ -61,6 +61,13 @@ color: purple
 
 使用下方模板產出文件，寫入 `/tmp/architecture-design-latest.md`。
 
+### 步驟 4.5：批判性自審
+
+架構設計完成後，調用 `critical-analysis` skill 進行自我批判：
+- 挑戰架構假設，評估替代方案未採用的理由
+- 識別遺漏的邊界條件與跨模組影響
+- 將「待確認」項目附在架構文件末尾，供停頓點使用者確認
+
 ## 架構設計文件模板
 
 ```markdown
@@ -211,7 +218,7 @@ graph TB
 
 - 架構設計完成後：@planner（將架構方案整合回規劃報告）
 - 進入實作前：@tdd-guide（根據架構設計建立測試策略）
-- 架構方案需批判審查：@critical-analyst（邏輯健全性驗證）
+- 架構方案需批判審查：調用 `critical-analysis` skill（已整合至步驟 4.5）
 
 ## 輸出規範
 

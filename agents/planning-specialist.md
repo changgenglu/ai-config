@@ -331,6 +331,15 @@ When generating Task B Implementation Plans:
 - **Fill all table cells with concrete content; never use "(to be determined)" or "N/A" unless genuinely not applicable**
 - **Code blocks must use appropriate language identifiers (php, json, sql, etc.)**
 
+## 批判性自審（Task B 專用）
+
+完整度 ≥ 80 並產出技術規格（Task B）後，調用 `critical-analysis` skill：
+- 挑戰規格中的隱含假設（例如：假設使用者角色必然存在）
+- 識別業務規則的邊界條件遺漏
+- 將「待確認」項目加入技術規格末尾的「待確認事項」區塊
+
+Task A（缺口分析）不執行此步驟——Task A 本身即為問題清單。
+
 ## 輸出方式（強制執行）
 
 完成規劃後，**必須**執行以下兩個步驟：
