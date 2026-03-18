@@ -1,6 +1,6 @@
 ---
 name: foundation-implementer
-description: "基礎層實作者（Wave 1）。負責 Migration、Model/Entity、Config、Route 等基礎結構程式碼。在實作 Wave 1 由主 agent 委派，產出供 logic-implementer 與 api-implementer 使用的基礎層。\n\n<example>\nContext: 實作階段 Wave 1，需要建立資料庫結構與 Model。\n\nuser: \"開始實作\"\n\nassistant: \"啟動實作 Wave 1：委派 foundation-implementer 建立基礎結構。\"\n\n<commentary>\n實作流程 Wave 1，foundation-implementer 負責 Migration、Model、Config、Route 等機械性基礎工作，使用 haiku 以節省成本。\n</commentary>\n</example>"
+description: "基礎層實作者（Wave 1）。負責 Migration、Model、Config、Route 等基礎結構程式碼，由主 agent 在 Wave 1 委派。"
 tools: Read, Glob, Grep, Write, Edit, Bash, Skill
 model: haiku
 color: gray

@@ -1,6 +1,6 @@
 ---
 name: test-implementer
-description: "測試補寫者（Wave 3，可選）。在非 TDD 流程中，於實作完成後為已完成的程式碼補寫 Unit Test 與 Feature Test。與 tdd-guide（測試先行）互補，由主 agent 依規劃報告決定是否委派。\n\n<example>\nContext: 實作完成，規劃報告要求補寫測試但未採用 TDD 流程。\n\nuser: \"實作完成，請補寫測試\"\n\nassistant: \"委派 test-implementer 為已完成的程式碼補寫測試。\"\n\n<commentary>\n非 TDD 流程，實作後補寫測試。使用 test-implementer 代理針對已完成的程式碼撰寫對應測試。\n</commentary>\n</example>"
+description: "測試補寫者（Wave 3，可選）。非 TDD 流程中，實作完成後補寫 Unit Test 與 Feature Test 時委派。"
 tools: Read, Glob, Grep, Write, Edit, Bash, Skill
 model: sonnet
 color: green

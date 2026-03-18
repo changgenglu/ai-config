@@ -1,6 +1,6 @@
 ---
 name: tdd-guide
-description: "TDD 測試先行引導師。當使用者在規劃確認後、開始實作前，需要先建立測試案例時觸發。根據規劃報告與架構設計，撰寫測試案例並定義驗收標準。遵循 Red-Green-Refactor 循環。\n\n**觸發範例**：\n\n<example>\nContext: 規劃報告已經確認，準備開始實作前先寫測試。\n\nuser: \"規劃已確認，請先幫我建立測試案例\"\n\nassistant: \"我將使用 tdd-guide 代理根據規劃報告建立測試案例。\"\n\n<commentary>\n規劃確認後、實作前，使用 tdd-guide 代理建立測試。遵循 TDD 流程，先寫測試再實作。\n</commentary>\n</example>\n\n<example>\nContext: 使用者要修復一個 bug，想先用測試重現問題。\n\nuser: \"先寫一個測試來重現這個 bug\"\n\nassistant: \"我將使用 tdd-guide 代理來建立重現 bug 的測試案例。\"\n\n<commentary>\nBug 修復的最佳實踐是先用測試重現問題。使用 tdd-guide 代理建立失敗測試。\n</commentary>\n</example>"
+description: "TDD 測試先行引導師。規劃確認後、實作前需要先建立測試案例時委派，遵循 Red-Green-Refactor 循環。"
 tools: Read, Glob, Grep, Write, Edit, Bash, Skill
 model: sonnet
 color: green

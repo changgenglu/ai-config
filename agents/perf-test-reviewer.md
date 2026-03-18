@@ -1,6 +1,6 @@
 ---
 name: perf-test-reviewer
-description: "效能與可測試性審查員（Wave 1）。檢查 N+1 查詢、迴圈內 I/O、快取策略、測試覆蓋率、測試品質等項目。與 style-reviewer、security-reviewer 平行執行，報告供 review-lead 合併。\n\n<example>\nContext: 審查流程的 Wave 1 階段，需要平行啟動三個專項審查員。\n\nuser: \"開始審查\"\n\nassistant: \"啟動 Wave 1：平行委派 style-reviewer、security-reviewer、perf-test-reviewer。\"\n\n<commentary>\n審查流程 Wave 1，perf-test-reviewer 負責效能與測試品質的結構化檢查，使用 haiku 以節省成本。\n</commentary>\n</example>"
+description: "效能與可測試性審查員（Wave 1）。檢查 N+1 查詢、迴圈內 I/O、快取策略與測試覆蓋率，產出 /tmp/review-perf-test-latest.md。"
 tools: Read, Glob, Grep, Bash, Skill, Write
 model: haiku
 color: lime

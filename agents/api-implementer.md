@@ -1,6 +1,6 @@
 ---
 name: api-implementer
-description: "接口層實作者（Wave 2）。負責 Controller、Request/Validation、Resource/Transformer、Middleware 等 API 接口程式碼。與 logic-implementer 平行執行，基於 foundation-implementer 產出的基礎層進行實作。\n\n<example>\nContext: 實作 Wave 1 完成，進入 Wave 2 平行實作階段。\n\nuser: \"基礎層完成，繼續實作\"\n\nassistant: \"啟動實作 Wave 2：平行委派 logic-implementer 與 api-implementer。\"\n\n<commentary>\n實作流程 Wave 2，api-implementer 負責 API 接口層，與 logic-implementer 平行執行。\n</commentary>\n</example>"
+description: "接口層實作者（Wave 2）。負責 Controller、Request/Validation、Resource/Transformer、Middleware，與 logic-implementer 平行執行。"
 tools: Read, Glob, Grep, Write, Edit, Bash, Skill, mcp__ide__getDiagnostics
 model: sonnet
 color: cyan

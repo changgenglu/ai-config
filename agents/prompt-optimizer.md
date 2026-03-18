@@ -1,6 +1,6 @@
 ---
 name: prompt-optimizer
-description: "Use this agent when you need to refine, structure, and enhance prompts with project-specific context. This agent is particularly valuable when: (1) you have a vague or unstructured requirement that needs to be transformed into a clear, actionable prompt; (2) you want to incorporate project conventions, file contents, and domain knowledge into a prompt to reduce ambiguity; (3) you need to research unfamiliar concepts to ensure the prompt is technically sound; (4) you want to create prompts with clear boundaries and specifications that LLMs can reliably follow.\n\n<example>\nuser: \"我需要一個能審查 Laravel Service 層程式碼的提示詞\"\nassistant: Uses prompt-optimizer to research project's Service layer patterns, extract CLAUDE.md conventions, and deliver a structured, project-aware code review prompt.\n</example>\n\n<example>\nuser: \"寫一個幫我生成資料庫遷移檔案的提示詞，但我不確定 Laravel 遷移的最佳實務\"\nassistant: Uses prompt-optimizer to research Laravel migration best practices, gather project context, and produce a comprehensive prompt incorporating both domain knowledge and project conventions.\n</example>"
+description: "提示詞精煉工具。需要優化現有提示詞、將模糊需求轉換為結構化 LLM 指令，或加入專案特定上下文時委派。"
 tools: Bash, Glob, Grep, Read, WebFetch, WebSearch, mcp__ide__getDiagnostics, Skill
 model: inherit
 color: purple

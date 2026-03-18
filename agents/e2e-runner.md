@@ -1,6 +1,6 @@
 ---
 name: e2e-runner
-description: "E2E 測試產生器。當功能開發完成、需要建立端對端整合測試時觸發。根據功能規格或 API 文件，生成完整的 E2E 測試腳本，涵蓋使用者操作流程與跨模組整合驗證。不測試單元層邏輯（交給 tdd-guide）。\n\n<example>\nContext: 功能實作與單元測試都已完成，需要建立 E2E 測試驗證完整流程。\n\nuser: \"促銷功能已完成，請建立 E2E 測試\"\n\nassistant: \"我將使用 e2e-runner 代理根據功能規格建立 E2E 測試腳本。\"\n\n<commentary>\n功能完成後需要端到端驗證。使用 e2e-runner 代理建立覆蓋完整使用者流程的 E2E 測試。\n</commentary>\n</example>\n\n<example>\nContext: API 端點開發完成，需要 E2E 測試驗證完整請求-回應流程。\n\nuser: \"新 API 已上線，幫我建 E2E 測試覆蓋主要流程\"\n\nassistant: \"我將使用 e2e-runner 代理根據 API 文件建立 E2E 測試。\"\n\n<commentary>\nAPI 完成需要整合測試。使用 e2e-runner 代理建立涵蓋完整 API 流程的 E2E 測試。\n</commentary>\n</example>"
+description: "E2E 測試產生器。功能開發完成後需要建立端對端整合測試時委派，涵蓋使用者流程與跨模組驗證。"
 tools: Read, Glob, Grep, Write, Bash, Skill
 model: sonnet
 color: cyan

@@ -1,6 +1,6 @@
 ---
 name: build-error-resolver
-description: "建置與測試錯誤修復專家。當 CI 失敗、型別錯誤、測試紅燈、composer/npm install 失敗、容器建置失敗等建置相關錯誤發生時觸發。負責讀取錯誤日誌、定位根因、提出最小範圍修復方案。\n\n**觸發範例**：\n\n<example>\nContext: 測試執行後出現多個失敗。\n\nuser: \"PHPUnit 跑出 5 個失敗的測試，幫我看看\"\n\nassistant: \"我將使用 build-error-resolver 代理來分析測試失敗原因並提出修復方案。\"\n\n<commentary>\n測試紅燈需要快速定位根因。使用 build-error-resolver 代理讀取錯誤日誌並找出最小修復範圍。\n</commentary>\n</example>\n\n<example>\nContext: composer install 後出現依賴衝突。\n\nuser: \"composer update 後出現一堆版本衝突\"\n\nassistant: \"我將使用 build-error-resolver 代理來分析依賴衝突並提出解決方案。\"\n\n<commentary>\n依賴衝突是建置層級問題。使用 build-error-resolver 代理分析衝突圖並找出最小調整方案。\n</commentary>\n</example>"
+description: "建置與測試錯誤修復專家。CI 失敗、型別錯誤、測試紅燈等建置相關錯誤發生時委派，定位根因並提出最小修復方案。"
 tools: Read, Glob, Grep, Edit, Bash, Skill, mcp__ide__getDiagnostics
 model: sonnet
 color: yellow

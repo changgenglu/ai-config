@@ -1,6 +1,6 @@
 ---
 name: review-lead
-description: "審查團隊主審。負責 SOLID 原則與功能正確性的深度審查，並在 Wave 1（style-reviewer、security-reviewer、perf-test-reviewer）完成後，讀取三份專項報告進行交叉比對，產出最終合併審查報告。是唯一使用 opus 的審查代理。\n\n**觸發範例**：\n\n<example>\nContext: 三個 Wave 1 審查員已完成專項審查，review-lead 需要做深度分析並合併報告。\n\nuser: \"Wave 1 審查完成，請執行最終審查\"\n\nassistant: \"我將使用 review-lead 代理進行 SOLID/功能正確性分析並合併三份專項報告。\"\n\n<commentary>\nWave 1 已完成，需要 review-lead 做深度推理（SOLID、業務邏輯、競爭條件）並交叉比對各專項報告，產出最終合併報告。\n</commentary>\n</example>"
+description: "審查主審（Wave 2）。讀取三份 Wave 1 報告進行 SOLID 原則與功能正確性深度審查，交叉比對後產出最終合併審查報告。"
 tools: Glob, Grep, Read, WebFetch, WebSearch, Bash, Skill, Write
 model: opus
 color: orange

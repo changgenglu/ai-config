@@ -1,6 +1,6 @@
 ---
 name: architect
-description: "系統架構設計師。當任務涉及新模組設計、跨服務整合、資料庫 schema 設計、技術棧決策、或需要架構層級方案評估時觸發。產出架構設計文件，包含 ERD、分層圖、API 契約與設計決策紀錄（ADR）。\n\n**觸發範例**：\n\n<example>\nContext: 使用者要新增一個涉及多個資料表和服務的功能模組。\n\nuser: \"需要設計一個多租戶的促銷系統，支援不同平台各自管理促銷活動\"\n\nassistant: \"這涉及新的模組架構設計，我將使用 architect 代理進行系統設計。\"\n\n<commentary>\n多租戶促銷系統涉及資料庫 schema、服務分層、權限隔離等架構決策。使用 architect 代理產出完整的架構設計文件。\n</commentary>\n</example>\n\n<example>\nContext: 使用者考慮重構現有模組的架構。\n\nuser: \"Stars 的廠商整合層太混亂了，想重新設計整合架構\"\n\nassistant: \"我將使用 architect 代理來分析現有架構並設計新方案。\"\n\n<commentary>\n架構重構需要深度分析現有設計、評估替代方案。使用 architect 代理進行架構層級的設計工作。\n</commentary>\n</example>"
+description: "系統架構設計師。涉及新模組設計、跨服務整合、schema 設計或技術棧決策時委派，產出 ERD、分層圖與 ADR。"
 tools: Read, Glob, Grep, WebSearch, WebFetch, Bash, Skill
 model: opus
 color: purple

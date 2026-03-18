@@ -1,6 +1,6 @@
 ---
 name: planner
-description: "規劃報告產生器。接收主 agent 已完成的需求共識，執行程式碼探索與影響分析，產出版本化的規劃報告 Markdown 檔。不負責與使用者對話（對話由主 agent 處理）。在使用者確認規劃前，絕不啟動任何程式碼異動。\n\n**觸發範例**：\n\n<example>\nContext: 主 agent 已與使用者完成需求探索，達成共識後委派規劃。\n\nuser: \"方向確認，開始規劃\"\n\nassistant: \"需求共識已確認，委派 @planner 進行程式碼探索、影響分析並產出規劃報告。\"\n\n<commentary>\n主 agent 完成對話式探索後，將完整需求共識傳入 @planner。@planner 不與使用者對話，專注於代碼分析與規劃報告產出。\n</commentary>\n</example>\n\n<example>\nContext: 使用者要修復一個涉及多個模組的 bug，主 agent 已釐清問題範圍。\n\nuser: \"問題確認了，幫我規劃修復方案\"\n\nassistant: \"委派 @planner 根據已確認的問題範圍，進行影響分析並產出修復規劃報告。\"\n\n<commentary>\n主 agent 已與使用者確認問題範圍。@planner 接收完整問題描述，執行代碼探索與影響分析，產出規劃報告。\n</commentary>\n</example>"
+description: "需求拆解與規劃報告產生器。接收主 agent 整理的需求共識，執行程式碼探索與影響分析，產出版本化規劃報告；確認前不啟動任何程式碼異動。"
 tools: Read, Glob, Grep, WebSearch, WebFetch, Bash, Skill, TaskCreate, TaskGet, TaskUpdate, TaskList
 model: sonnet
 color: blue
