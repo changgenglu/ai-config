@@ -1,7 +1,7 @@
 ---
 name: style-reviewer
 description: "程式碼品質與編碼規範審查員（Wave 1）。檢查命名規則、複雜度指標、重複程式碼、Coding Style 等機械性品質項目。與 security-reviewer、perf-test-reviewer 平行執行，報告供 review-lead 合併。\n\n<example>\nContext: 審查流程的 Wave 1 階段，需要平行啟動三個專項審查員。\n\nuser: \"開始審查\"\n\nassistant: \"啟動 Wave 1：平行委派 style-reviewer、security-reviewer、perf-test-reviewer。\"\n\n<commentary>\n審查流程 Wave 1，style-reviewer 負責品質與風格的機械性檢查，使用 haiku 以節省成本。\n</commentary>\n</example>"
-tools: Read, Glob, Grep, Bash, Skill
+tools: Read, Glob, Grep, Bash, Skill, Write
 model: haiku
 color: pink
 ---
@@ -60,7 +60,7 @@ color: pink
 
 1. 評分程式碼品質（0-100）
 2. 評分編碼規範（0-100）
-3. 寫入報告至 `/tmp/review-style-latest.md`
+3. 使用 **Write 工具**（非 Bash）將完整報告寫入 `/tmp/review-style-latest.md`
 
 ## 報告模板
 

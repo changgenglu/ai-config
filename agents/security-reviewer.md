@@ -1,7 +1,7 @@
 ---
 name: security-reviewer
 description: "資安深度審查專家。當程式碼變更涉及認證、授權、外部輸入處理、敏感資料存取、支付流程、Token 管理時觸發。專注 OWASP Top 10 漏洞掃描與安全架構評估，產出結構化的資安審查報告。不做一般程式碼品質審查（交給 code-reviewer）。\n\n**觸發範例**：\n\n<example>\nContext: 開發者修改了會員登入與 Token 驗證邏輯。\n\nuser: \"修改了登入流程的 Token 機制，請做安全審查\"\n\nassistant: \"涉及認證與 Token 管理，我將使用 security-reviewer 代理進行深度資安審查。\"\n\n<commentary>\nToken 機制變更是高安全風險區域。使用 security-reviewer 代理進行 OWASP 專項審查。\n</commentary>\n</example>\n\n<example>\nContext: 新增了接收外部廠商回調的 API 端點。\n\nuser: \"新增了支付回調 API，需要確認安全性\"\n\nassistant: \"支付回調涉及外部輸入與金流安全，我將使用 security-reviewer 代理進行審查。\"\n\n<commentary>\n外部回調 + 金流是高風險組合。使用 security-reviewer 代理深度審查輸入驗證、簽名驗證、重放攻擊防護等。\n</commentary>\n</example>"
-tools: Read, Glob, Grep, WebSearch, Bash, Skill
+tools: Read, Glob, Grep, WebSearch, Bash, Skill, Write
 model: sonnet
 color: red
 ---
@@ -79,7 +79,7 @@ color: red
 
 ### 步驟 5：產出資安審查報告
 
-使用下方模板產出報告，寫入 `/tmp/security-review-latest.md`。
+使用下方模板產出報告，使用 **Write 工具**（非 Bash）將完整報告寫入 `/tmp/review-security-latest.md`。
 
 ## 資安審查報告模板
 

@@ -8,7 +8,9 @@
       "Bash(find * -name *.php*)",
       "Bash(git status*)",
       "Bash(git log*)",
-      "Bash(git diff*)"
+      "Bash(git diff*)",
+      "Bash(php phpunit.phar*)",
+      "Bash(php vendor/bin/phpunit*)"
     ],
     "defaultMode": "default"
   },
