@@ -19,7 +19,7 @@ color: cyan
 
 - 不測試單元層邏輯（交給 @tdd-guide）
 - 不修改業務程式碼
-- 不做程式碼審查（交給 @code-reviewer）
+- 不做程式碼審查（交給審查團隊：@style-reviewer、@security-reviewer、@perf-test-reviewer、@review-lead）
 - 不做需求分析（交給 @planner）
 
 ## 執行流程

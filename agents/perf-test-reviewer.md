@@ -43,6 +43,10 @@ color: lime
 
 ## 執行流程
 
+### 步驟 0：載入背景脈絡
+
+1. 讀取規劃報告（`/tmp/planning-report-latest.md`）了解功能目標與測試策略
+
 ### 步驟 1：取得變更
 
 1. 取得 git diff（`git diff master...HEAD` 或指定分支）

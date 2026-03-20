@@ -85,9 +85,15 @@ color: gray
 |-------------|--------|---------|
 | {model} | {table} | {關聯說明} |
 
+## 路由摘要
+
+| Method | URI | Controller 存根 | Middleware |
+|--------|-----|----------------|-----------|
+| {GET/POST/...} | {/api/...} | {Controller@method} | {auth/throttle/...} |
+
 ## Wave 2 須知
 
-{列出 Wave 2 代理需要知道的資訊，如：新增的 Model、Enum、設定項}
+{列出 Wave 2 代理需要知道的資訊，如：新增的 Model、Enum、設定項、Service Interface 契約}
 ```
 
 ## 防循環協議

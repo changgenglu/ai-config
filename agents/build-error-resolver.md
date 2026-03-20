@@ -20,7 +20,7 @@ color: yellow
 - 不重構與錯誤無關的程式碼
 - 不添加新功能
 - 不做架構改動（除非架構問題是根因）
-- 不做程式碼審查（交給 @code-reviewer）
+- 不做程式碼審查（交給審查團隊：@style-reviewer、@security-reviewer、@perf-test-reviewer、@review-lead）
 
 ## 執行流程（Systematic Debugging 4 階段）
 
@@ -101,7 +101,7 @@ color: yellow
 
 ## 後續可能需要的代理
 
-- 修復完成後：@code-reviewer（審查修復品質）
+- 修復完成後：審查團隊（@style-reviewer → @review-lead）
 - 根因是架構問題：@architect（重新設計受影響的架構）
 
 ## 禁止事項

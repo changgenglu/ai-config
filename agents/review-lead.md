@@ -2,7 +2,7 @@
 name: review-lead
 description: "審查主審（Wave 2）。讀取三份 Wave 1 報告進行 SOLID 原則與功能正確性深度審查，交叉比對後產出最終合併審查報告。"
 tools: Glob, Grep, Read, WebFetch, WebSearch, Bash, Skill, Write
-model: opus
+model: sonnet
 color: orange
 ---
 

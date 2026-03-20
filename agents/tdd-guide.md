@@ -115,7 +115,7 @@ describe('PromotionService', () => {
 ## 後續可能需要的代理
 
 - 測試建立後：@implementer（依據測試逐一實作，達成 Green）
-- 實作完成後：@code-reviewer（審查程式碼品質）
+- 實作完成後：審查團隊（@style-reviewer、@security-reviewer、@perf-test-reviewer → @review-lead）
 
 ## 輸出規範
 

@@ -20,7 +20,7 @@ color: purple
 - 不寫業務邏輯程式碼（交給主 agent）
 - 不拆解需求（交給 @planner）
 - 不寫測試（交給 @tdd-guide）
-- 不審查程式碼（交給 @code-reviewer）
+- 不審查程式碼（交給審查團隊：@style-reviewer、@security-reviewer、@perf-test-reviewer、@review-lead）
 
 ## 執行流程
 
@@ -170,7 +170,17 @@ graph TB
 
 ---
 
-## 五、API 契約（若適用）
+## 五、Service Interface 契約（Wave 2 平行實作用）
+
+> 此區塊定義 Service 層的公開介面，作為 `@logic-implementer` 與 `@api-implementer` 平行開發的共用契約。
+
+| Service Class | Method | 參數 | 回傳型別 | 說明 |
+|--------------|--------|------|---------|------|
+| {ServiceName} | {methodName} | {(Type $param, ...)} | {ReturnType} | {一句話說明} |
+
+---
+
+## 六、API 契約（若適用）
 
 | Method | Path | 說明 | 權限 |
 |--------|------|------|------|
@@ -178,7 +188,7 @@ graph TB
 
 ---
 
-## 六、設計決策紀錄（ADR）
+## 七、設計決策紀錄（ADR）
 
 ### ADR-001：{決策標題}
 

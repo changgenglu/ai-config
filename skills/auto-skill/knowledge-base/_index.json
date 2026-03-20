@@ -1,87 +1,77 @@
 {
-  "lastUpdated": "2026-02-09",
-  "version": "1.0.0",
-  "totalEntries": 1,
+  "lastUpdated": "2026-03-16",
   "categories": [
     {
-      "id": "frontend-dev",
-      "name": "前端開發",
-      "keywords": [
-        "React",
-        "Vue",
-        "CSS",
-        "HTML",
-        "JavaScript",
-        "TypeScript",
-        "組件",
-        "網頁",
-        "UI"
-      ],
-      "file": "frontend-dev.md",
-      "count": 0
+      "id": "satellite-architecture",
+      "file": "satellite-architecture.md",
+      "description": "Satellite 專案架構、Service 模式、Model 慣例、快取、權限、業務術語",
+      "keywords": ["satellite", "service factory", "laravel", "provider", "platform", "feature", "redis", "model", "controller", "middleware", "auth", "permission", "cache", "多租戶"]
+    },
+    {
+      "id": "stars-project-overview",
+      "file": "stars-project-overview.md",
+      "description": "Stars 專案總覽：Laravel 遊戲平台後端中間層，整合多廠商供多站台使用",
+      "keywords": ["stars", "laravel", "專案", "目錄結構", "provider", "platform", "廠商", "站台", "術語"]
+    },
+    {
+      "id": "stars-architecture-patterns",
+      "file": "stars-architecture-patterns.md",
+      "description": "Stars 架構模式：ServiceFactory、RedisKey、多資料庫、異常處理、分層設計",
+      "keywords": ["servicefactory", "rediskey", "redis", "多資料庫", "service", "異常", "exception", "架構", "分層"]
+    },
+    {
+      "id": "stars-testing-patterns",
+      "file": "stars-testing-patterns.md",
+      "description": "Stars 測試模式：SQLite in-memory、PHPUnit、整合測試、RefreshDatabase",
+      "keywords": ["測試", "test", "sqlite", "phpunit", "整合測試", "單元測試", "RefreshDatabase"]
+    },
+    {
+      "id": "stars-routing-auth",
+      "file": "stars-routing-auth.md",
+      "description": "Stars 路由與認證：路由分組、中介層對照、backend/agent/client/qc 認證群組",
+      "keywords": ["路由", "route", "認證", "auth", "middleware", "backend", "agent", "client", "qc"]
+    },
+    {
+      "id": "puppy-pp-integration",
+      "file": "puppy-pp-integration.md",
+      "description": "Puppy 專案 PP (Pragmatic Play) 無縫錢包串接：回應欄位規範、錯誤碼映射、Reconciliation 機制、已知缺陷清單",
+      "keywords": ["PP", "pragmatic play", "無縫錢包", "seamless wallet", "bet", "result", "refund", "authenticate", "冪等", "reconciliation", "錯誤碼", "bonusWin", "jackpotWin", "promoWin", "puppy"]
+    },
+    {
+      "id": "puppy-nestjs-testing",
+      "file": "puppy-nestjs-testing.md",
+      "description": "Puppy NestJS 整合測試：ioredis keyPrefix 陷阱、FakeTcpClientService 設計、模組設置與資源清理模式",
+      "keywords": ["nestjs", "jest", "integration test", "ioredis", "typeorm", "fake", "mock", "TCP", "redis keyPrefix", "FakeTcpClientService", "flushdb", "puppy"]
     },
     {
       "id": "backend-dev",
-      "name": "後端開發",
-      "keywords": [
-        "API",
-        "數據庫",
-        "Server",
-        "Node.js",
-        "Python",
-        "Express",
-        "REST",
-        "GraphQL"
-      ],
       "file": "backend-dev.md",
-      "count": 0
+      "description": "後端開發最佳實踐",
+      "keywords": ["API", "server", "node.js", "backend", "REST", "資料庫"]
     },
     {
-      "id": "writing",
-      "name": "寫作技巧",
-      "keywords": [
-        "文章",
-        "文案",
-        "翻譯",
-        "語言",
-        "寫作",
-        "編輯",
-        "校對",
-        "內容"
-      ],
-      "file": "writing.md",
-      "count": 1
+      "id": "frontend-dev",
+      "file": "frontend-dev.md",
+      "description": "前端開發最佳實踐",
+      "keywords": ["React", "Vue", "CSS", "HTML", "JavaScript", "TypeScript", "UI", "組件"]
     },
     {
       "id": "design-layout",
-      "name": "設計排版",
-      "keywords": [
-        "UI",
-        "UX",
-        "色彩",
-        "字體",
-        "排版",
-        "設計",
-        "視覺",
-        "佈局"
-      ],
       "file": "design-layout.md",
-      "count": 0
+      "description": "設計排版最佳實踐",
+      "keywords": ["UI", "UX", "色彩", "字體", "排版", "設計", "視覺"]
     },
     {
       "id": "workflow",
-      "name": "工作流程",
-      "keywords": [
-        "效率",
-        "管理",
-        "工具",
-        "自動化",
-        "流程",
-        "專案"
-      ],
       "file": "workflow.md",
-      "count": 0
+      "description": "工作流程與效率最佳實踐",
+      "keywords": ["效率", "管理", "工具", "自動化", "流程", "專案"]
+    },
+    {
+      "id": "writing",
+      "file": "writing.md",
+      "description": "寫作技巧最佳實踐",
+      "keywords": ["文章", "文案", "翻譯", "語言", "寫作", "編輯", "校對"]
     }
-  ],
-  "absorbedSkills": []
+  ]
 }

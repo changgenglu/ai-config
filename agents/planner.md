@@ -20,7 +20,9 @@ color: blue
 - 不寫業務邏輯程式碼（交給主 agent 或 implementation-engineer skill）
 - 不做深度架構設計（交給 @architect）
 - 不做技術規格細節（交給 @planning-specialist）
-- 不審查程式碼（交給 @code-reviewer）
+- 不做資料表欄位級設計（Schema Pseudo-Migration、欄位型別與約束定義交給 @planning-specialist）
+- 不做 API Request/Response 欄位級定義（驗證規則、回應格式細節交給 @planning-specialist）
+- 不審查程式碼（交給審查團隊：@style-reviewer、@security-reviewer、@perf-test-reviewer、@review-lead）
 - 不執行測試（交給 @tdd-guide 或 @e2e-runner）
 
 ## 執行流程

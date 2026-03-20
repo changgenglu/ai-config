@@ -39,7 +39,38 @@
 
 ---
 
+---
+
+## 問題六：Wave 1 審查員無法寫入審查報告
+
+**現象**：三個 Wave 1 審查員（@style-reviewer、@security-reviewer、@perf-test-reviewer）完成分析後，無法自行將報告寫入 `/tmp/review-*.md`：
+- @style-reviewer 與 @perf-test-reviewer 嘗試用 `cat > /tmp/...`（Bash），但 `cat >` 不在白名單，被拒絕。
+- @security-reviewer 嘗試 `Skill("write")`，該 skill 不存在，代理卡住。
+- 最終由主 agent 讀取每個審查員的任務輸出檔（`.output`），提取報告內容，再用 `Write` 工具手動寫入三份報告。
+
+**補充現象**：@perf-test-reviewer 的輸出檔達 316KB，需用 offset/limit 分段讀取才能找到報告內容，增加額外的 token 成本。
+
+**根本原因**：三個審查員的代理定義（`tools:` 欄位）均未包含 `Write` 工具：
+- style-reviewer：`Read, Glob, Grep, Bash, Skill`
+- security-reviewer：`Read, Glob, Grep, WebSearch, Bash, Skill`
+- perf-test-reviewer：`Read, Glob, Grep, Bash, Skill`
+
+**建議修復**：在三個代理定義的 `tools:` 欄位加入 `Write`，並在 prompt 中加一行說明：「完成審查後，使用 **Write 工具**（非 Bash）將完整報告寫入指定路徑。」
+
+**使用者決定**：記錄問題，暫不修改代理定義。
+
+---
+
+## 問題七：Context Window 滿載需跨 Session
+
+**現象**：上一 session 在 Wave 3 測試完成 + Wave 1 審查啟動後 context 滿載，需開新 session 從摘要重建狀態，有額外的 token 成本。
+
+**建議修復**：在完成大型階段（如 Wave 實作完成、所有審查員啟動後）主動執行 `/compact`，不等到 context 滿才被迫換 session。
+
+---
+
 ## 待處理行動項目
 
 - [ ] 研究並設定 `settings.json` 的 Bash 白名單，讓子代理可執行語法檢查等安全操作（問題一）
 - [ ] 在 CLAUDE.md 或 @planner 流程中加入：待確認項目回答後，提示同步更新規劃報告（問題五）
+- [ ] 在三個 Wave 1 審查員代理定義加入 `Write` 工具，並在 prompt 補充寫入說明（問題六）

@@ -1,0 +1,413 @@
+/**
+ * PHP 計算機 - 主樣式檔案
+ *
+ * 使用 CSS 變數定義深色主題
+ * Wave 1 提供基礎佈局，Wave 2b 完善細節
+ */
+
+:root {
+    --bg-dark: #1a1a1a;
+    --bg-card: #2d2d2d;
+    --bg-light: #3d3d3d;
+    --text-primary: #ffffff;
+    --text-secondary: #b0b0b0;
+    --accent-color: #ff8c00;
+    --accent-hover: #ff9f2a;
+    --border-color: #444444;
+    --error-color: #ff6b6b;
+    --success-color: #51cf66;
+    /* 計算機按鍵分類 */
+    --btn-num:     #333333;
+    --btn-op:      #505050;
+    --btn-special: #636363;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background-color: var(--bg-dark);
+    color: var(--text-primary);
+    line-height: 1.5;
+}
+
+.container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 0 15px;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 32px;
+    font-weight: 600;
+}
+
+/* 頁籤導航 */
+.tab-nav {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 10px;
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 12px 20px;
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -13px;
+}
+
+.tab-btn:hover {
+    color: var(--text-primary);
+}
+
+.tab-btn.active {
+    color: var(--accent-color);
+    border-bottom-color: var(--accent-color);
+}
+
+/* 頁籤內容 */
+.tab-content {
+    display: none;
+    animation: fadeIn 0.3s ease;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 計算機樣式 */
+.calc-container {
+    background-color: var(--bg-card);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.calc-display {
+    background-color: var(--bg-light);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    text-align: right;
+    border: 1px solid var(--border-color);
+}
+
+/* 上方小字：顯示歷史表達式 */
+.calc-expression {
+    font-size: 14px;
+    color: var(--text-secondary);
+    min-height: 20px;
+    word-wrap: break-word;
+    word-break: break-all;
+}
+
+/* 下方大字：顯示當前輸入或計算結果 */
+.calc-result {
+    font-size: 2.5rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-top: 4px;
+    min-height: 40px;
+    word-wrap: break-word;
+    word-break: break-all;
+}
+
+.calc-expression.error,
+.calc-result.error {
+    color: var(--error-color);
+}
+
+.calc-buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.calc-btn {
+    height: 70px;
+    font-size: 20px;
+    font-weight: 500;
+    border: none;
+    border-radius: 50px;
+    background-color: var(--btn-num);
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.calc-btn:hover {
+    filter: brightness(1.2);
+}
+
+.calc-btn:active {
+    transform: scale(0.95);
+}
+
+.calc-btn-number {
+    background-color: var(--btn-num);
+}
+
+.calc-btn-operator {
+    background-color: var(--accent-color);
+    color: #000000;
+}
+
+.calc-btn-operator:hover {
+    filter: brightness(1.15);
+}
+
+.calc-btn-clear {
+    background-color: var(--btn-special);
+    color: #000000;
+}
+
+.calc-btn-equals {
+    background-color: var(--accent-color);
+    color: #000000;
+    font-weight: 600;
+}
+
+.calc-btn-paren {
+    background-color: var(--btn-op);
+    color: var(--text-primary);
+}
+
+.calc-btn-backspace {
+    background-color: var(--btn-op);
+    color: var(--error-color);
+}
+
+/* 單位換算容器 */
+.converter-container,
+.exchange-container {
+    background-color: var(--bg-card);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* 表單樣式 */
+.converter-form,
+.exchange-form {
+    background-color: var(--bg-light);
+    border-radius: 8px;
+    padding: 20px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 15px;
+    align-items: flex-end;
+}
+
+label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+select,
+input[type="number"] {
+    width: 100%;
+    padding: 10px 12px;
+    background-color: var(--bg-dark);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    color: var(--text-primary);
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+select:hover,
+input[type="number"]:hover {
+    border-color: var(--accent-color);
+}
+
+select:focus,
+input[type="number"]:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(255, 140, 0, 0.1);
+}
+
+select {
+    cursor: pointer;
+    padding-right: 30px;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23b0b0b0' stroke-width='2'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    background-size: 20px;
+    padding-right: 35px;
+}
+
+/* 按鈕樣式 */
+.conv-btn,
+.exc-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--accent-color);
+    border: none;
+    border-radius: 6px;
+    color: #000000;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.conv-btn:hover,
+.exc-btn:hover {
+    background-color: var(--accent-hover);
+}
+
+.conv-btn:active,
+.exc-btn:active {
+    transform: scale(0.98);
+}
+
+.exc-swap-btn {
+    padding: 10px 12px;
+    background-color: var(--bg-dark);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    color: var(--accent-color);
+    cursor: pointer;
+    font-size: 18px;
+    transition: all 0.2s ease;
+    min-width: 50px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.exc-swap-btn:hover {
+    background-color: var(--bg-light);
+    border-color: var(--accent-color);
+}
+
+/* 結果顯示 */
+.result-display {
+    background-color: var(--bg-light);
+    border-radius: 8px;
+    padding: 20px;
+    border: 1px solid var(--border-color);
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.conv-result,
+.exc-result {
+    font-size: 20px;
+    font-weight: 500;
+    text-align: center;
+    width: 100%;
+}
+
+.result-display.error {
+    color: var(--error-color);
+    border-color: var(--error-color);
+}
+
+.result-display.success {
+    color: var(--success-color);
+}
+
+/* 響應式設計 */
+@media (max-width: 480px) {
+    .container {
+        padding: 0 10px;
+    }
+
+    h1 {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    .tab-nav {
+        gap: 5px;
+    }
+
+    .tab-btn {
+        padding: 10px 12px;
+        font-size: 12px;
+    }
+
+    .calc-display {
+        padding: 15px;
+    }
+
+    .calc-expression {
+        font-size: 12px;
+    }
+
+    .calc-result {
+        font-size: 1.8rem;
+    }
+
+    .calc-buttons {
+        gap: 8px;
+    }
+
+    .calc-btn {
+        height: 58px;
+        font-size: 16px;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .converter-form,
+    .exchange-form {
+        padding: 15px;
+    }
+
+    .form-group {
+        margin-bottom: 12px;
+    }
+}

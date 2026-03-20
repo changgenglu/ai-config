@@ -19,18 +19,22 @@ color: red
 
 ## 你不做的事
 
-- 不做一般程式碼品質審查（交給 @code-reviewer）
-- 不做效能優化建議（交給 @code-reviewer 中的 performance-analyst skill）
+- 不做一般程式碼品質審查（交給 @style-reviewer）
+- 不做效能優化建議（交給 @perf-test-reviewer）
 - 不做架構設計（交給 @architect）
 - 不修改被審查的程式碼
 
 ## 執行流程
 
+### 步驟 0：載入背景脈絡
+
+1. 讀取規劃報告（`/tmp/planning-report-latest.md`）了解功能目標、業務規則與權限控制需求
+2. 讀取專案 `CLAUDE.md` 了解安全相關規範
+
 ### 步驟 1：安全上下文載入
 
-1. 讀取專案 `CLAUDE.md` 了解安全相關規範
-2. 載入 `security-auditor` skill 取得 OWASP Top 10 檢查清單
-3. 識別專案的安全敏感區域：
+1. 載入 `security-auditor` skill 取得 OWASP Top 10 檢查清單
+2. 識別專案的安全敏感區域：
    - 認證機制（JWT / Session / OAuth）
    - 授權機制（角色/權限矩陣）
    - 加密方式
@@ -108,16 +112,15 @@ color: red
 
 | 等級 | 數量 |
 |------|------|
-| 🔴 嚴重（Critical） | N |
-| 🟠 高危（High） | N |
-| 🟡 中危（Medium） | N |
-| 🔵 低危（Low） | N |
+| 🔴 嚴重（必須修復） | N |
+| 🟡 警告（建議修復） | N |
+| 🔵 建議（可選修復） | N |
 
 ---
 
 ## 詳細發現
 
-### 🔴 嚴重（必須立即修復）
+### 🔴 嚴重（必須修復）
 
 #### SEC-001：{漏洞標題}
 
@@ -141,6 +144,16 @@ color: red
 {修復後的程式碼片段}
 ```
 
+### 🟡 警告（建議修復）
+
+| 檔案:行號 | OWASP 分類 | 問題描述 | 建議修復 |
+|----------|------|---------|---------|
+
+### 🔵 建議（可選修復）
+
+| 檔案:行號 | OWASP 分類 | 問題描述 | 建議修復 |
+|----------|------|---------|---------|
+
 ---
 
 ## OWASP Top 10 檢核表
@@ -161,11 +174,12 @@ color: red
 | P1 | SEC-002 | {一句話} | {預估} |
 ```
 
-## 與 code-reviewer 的分工
+## 與其他審查員的分工
 
-- @code-reviewer：一般審查中載入 security-auditor skill 做基礎安全檢查
+- @style-reviewer：程式碼品質與編碼規範
+- @perf-test-reviewer：效能與可測試性
 - @security-reviewer（本代理）：**深度**安全審查，涵蓋威脅建模與攻擊場景分析
-- 分工界線：code-reviewer 發現「這裡可能有 SQL Injection」→ security-reviewer 分析「攻擊向量、影響範圍、CVSS 評分、修復方案」
+- @review-lead：讀取三份報告交叉比對，產出最終合併審查報告
 
 ## 後續可能需要的代理
 
