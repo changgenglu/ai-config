@@ -4,6 +4,71 @@
 
 ---
 
+## 設計概念
+
+本架構的設計理念是**語言無關、流程驅動、自然語言觸發**：
+
+- **不綁定特定後端語言**：核心的調度規則（CLAUDE.md）、子代理定義（agents/）、工作流程不包含任何特定程式語言的假設。語言相關的知識（如 Laravel、NestJS、TypeORM）全部封裝在 skills/ 中，可自由擴充或替換。
+- **預設 TDD 但非硬性規定**：流程在需求探索階段會詢問測試策略（TDD / 事後補測 / 不寫），根據使用者選擇走不同路徑。
+- **無需記憶指令**：所有流程透過自然語言觸發（如「幫我做一個 X 功能」「這個 bug 怎麼回事」），主代理會自動判斷該走哪條路徑、委派哪個子代理。
+- **可擴充的技術棧**：若你的專案使用不同的技術棧（如 Python/Django、Go、React），可以請 AI 讀取你的設定後，針對需要的技術棧建立對應的 skill。
+
+---
+
+## 依賴套件
+
+本設定依賴以下外部套件，使用前請確認已安裝：
+
+### 必要依賴
+
+| 套件 | 用途 | 安裝方式 |
+|------|------|---------|
+| **Superpowers** | 提供方法論層：brainstorming、systematic-debugging、verification-before-completion、receiving-code-review 等 | `/plugin install superpowers@claude-plugins-official` |
+
+### 選用依賴
+
+| 套件 | 用途 | 安裝方式 | 備註 |
+|------|------|---------|------|
+| **Gemini CLI** | `@gemini-researcher` 代理的底層執行引擎，提供超長上下文的大規模分析能力 | `npm install -g @anthropic-ai/gemini-cli` | 若不使用，需請 AI 將 Gemini 相關流程從 CLAUDE.md 中移除，否則 `@gemini-researcher` 會反覆報錯 |
+| **RTK (Rust Token Killer)** | Token 優化 CLI 代理，透過 hook 自動攔截 git/npm 等指令，過濾冗餘輸出以節省 60-90% token | [rtk-ai/rtk](https://github.com/rtk-ai/rtk) | 強烈建議安裝，可顯著降低 token 成本 |
+
+### 關於 Gemini 依賴
+
+`gemini/` 目錄包含 Gemini CLI 的全域提示詞（`~/.gemini/GEMINI.md` 和 `~/.gemini/CLAUDE.md`）。如果你暫時不打算使用 Gemini：
+
+1. **不要複製** `gemini/` 目錄到 `~/.gemini/`
+2. **請 AI 修改** CLAUDE.md，移除以下內容：
+   - 4.1 節「Gemini 研究代理（主代理平行派出）」段落
+   - 所有 `@gemini-researcher` 觸發條件
+   - 結果合併規則
+3. **刪除** `agents/gemini-researcher.md` 和 `skills/gemini-headless/`
+4. 否則主代理會在符合觸發條件時不斷嘗試呼叫 Gemini 並失敗
+
+---
+
+## 專案層級設定
+
+**建議將專案層級的 CLAUDE.md 放在專案目錄的 `.claude/` 下**（而非專案根目錄）：
+
+```
+your-project/
+├── .claude/
+│   ├── CLAUDE.md          # 專案層級規則（覆寫全域設定）
+│   ├── reports/           # 流程產出的規劃報告、審查報告
+│   │   ├── planning-report.md
+│   │   ├── code-review.md
+│   │   └── implementation.md
+│   └── docs/              # 版本化的正式報告
+│       ├── xxx-plan-v1.0.md
+│       └── xxx-code-review-v1.0.md
+├── src/
+└── ...
+```
+
+原因：本工作流程中，@planner 的規劃報告、@review-lead 的審查報告、@implementer 的實作摘要等，都會寫入 `.claude/reports/`。將專案 CLAUDE.md 也放在 `.claude/` 下，可以讓所有 AI 相關的設定與產出集中管理，不污染專案根目錄。
+
+---
+
 ## 目錄結構
 
 ```
