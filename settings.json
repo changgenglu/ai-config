@@ -1,4 +1,7 @@
 {
+  "env": {
+    "DISABLE_AUTOUPDATER": "1"
+  },
   "permissions": {
     "allow": [
       "Bash(date +%Y-%m-%d %H:%M:*)",
@@ -35,6 +38,17 @@
           }
         ]
       }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/home/dev/.claude/hooks/rtk-rewrite.sh"
+          }
+        ]
+      }
     ]
   },
   "statusLine": {
@@ -44,7 +58,6 @@
   "enabledPlugins": {
     "superpowers@claude-plugins-official": true,
     "security-guidance@claude-plugins-official": true,
-    "feature-dev@claude-plugins-official": true,
     "skill-creator@claude-plugins-official": true
   },
   "extraKnownMarketplaces": {
@@ -56,5 +69,6 @@
     }
   },
   "language": "繁體中文",
-  "effortLevel": "medium"
+  "effortLevel": "medium",
+  "skipDangerousModePermissionPrompt": true
 }

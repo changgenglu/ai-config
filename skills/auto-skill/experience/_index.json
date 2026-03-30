@@ -1,4 +1,10 @@
 {
-  "lastUpdated": "2026-03-16",
-  "skills": []
+  "lastUpdated": "2026-03-26",
+  "skills": [
+    {
+      "id": "postman-mcp-integrator",
+      "name": "Postman MCP Integrator",
+      "description": "Postman 集合管理與自動化腳本經驗"
+    }
+  ]
 }

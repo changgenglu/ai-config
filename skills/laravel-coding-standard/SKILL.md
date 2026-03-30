@@ -241,29 +241,106 @@ use App\Contracts\Repositories\IOrderRepository;
 
 ---
 
-## 7. 快取命名規範
-
-**格式**：`前綴_描述:變數`
+## 7. 大括弧規則
 
 ```php
-// ✅ 正確
-"user_profile:123"
-"game_list:platform_1:active"
+// ✅ 正確：函數/方法宣告斷行
+public function getUser()
+{
+    return $this->user;
+}
 
-// ❌ 錯誤
-"userProfile:123"     // 命名不一致
-"data:123"            // 缺乏語意
+// ✅ 正確：控制結構（if/foreach/while）不斷行
+if ($condition) {
+    // ...
+}
+
+foreach ($items as $item) {
+    // ...
+}
+
+// ❌ 錯誤：函數不斷行
+public function getUser() {
+    return $this->user;
+}
+
+// ❌ 錯誤：控制結構斷行
+if ($condition)
+{
+    // ...
+}
 ```
 
 ---
 
-## 8. 審查檢查清單
+## 8. 字串使用
+
+```php
+// ✅ 正確：純字串使用單引號
+$name = 'Stars';
+$key = 'game_code';
+
+// ✅ 正確：需要變數插值時使用雙引號
+$message = "Welcome, {$name}!";
+
+// ❌ 錯誤：純字串使用雙引號
+$name = "Stars";
+```
+
+---
+
+## 9. 錯誤處理
+
+使用具體語意的例外類別，**禁止**直接拋出通用 `Exception`。
+
+```php
+// ✅ 正確
+throw new NotFoundException('Game not found');
+throw new ParameterException('Invalid game ID');
+
+// ❌ 錯誤
+throw new Exception('Error occurred');
+```
+
+**可用的例外類別**（皆繼承 `AbstractException`）：
+
+| 類別 | HTTP 狀態 | 用途 |
+|------|-----------|------|
+| `NotFoundException` | 404 | 資源不存在 |
+| `ParameterException` | 422 | 參數錯誤 |
+| `RuntimeException` | 500 | 執行時錯誤 |
+| `AuthException` | 401 | 認證錯誤 |
+| `ForbiddenException` | 403 | 禁止存取 |
+| `PermissionException` | 403 | 權限不足 |
+| `ExternalException` | 502 | 外部系統錯誤 |
+| `MaintainException` | 503 | 維護狀態異常 |
+
+---
+
+## 10. Redis Key 規範
+
+**必須**透過專案 Enum（`RedisKey`）管理所有 Redis Key，**禁止**在程式碼中硬編碼 Key 字串。
+
+```php
+// ✅ 正確：使用 RedisKey Enum
+RedisKey::GAME_CODE->build($platformId, $code)
+
+// ❌ 錯誤：硬編碼字串
+$redis->get("game_code:{$platformId}:{$code}");
+$redis->get("user_profile:{$userId}");
+```
+
+---
+
+## 11. 審查檢查清單
 
 ### 命名與格式
 - [ ] 變數是否使用 camelCase？
 - [ ] 常數是否使用 UPPER_SNAKE_CASE？
 - [ ] 介面是否以 `I` 開頭？
 - [ ] 陣列是否使用 `[]` 且有多行結尾逗號？
+- [ ] 純字串是否使用單引號？
+- [ ] 函數大括弧是否斷行、控制結構大括弧是否不斷行？
 
 ### Validation
 - [ ] 驗證規則是否為陣列格式（非字串 `|`）？
@@ -277,3 +354,9 @@ use App\Contracts\Repositories\IOrderRepository;
 ### Enum
 - [ ] Enum 是否包含 `getLabel()` 方法？
 - [ ] Enum 是否包含 `getOptions()` 方法？
+
+### 錯誤處理
+- [ ] 是否使用具體語意的例外類別（非通用 `Exception`）？
+
+### Redis
+- [ ] Redis Key 是否透過 Enum 管理（無硬編碼字串）？

@@ -44,6 +44,12 @@
       "keywords": ["nestjs", "jest", "integration test", "ioredis", "typeorm", "fake", "mock", "TCP", "redis keyPrefix", "FakeTcpClientService", "flushdb", "puppy"]
     },
     {
+      "id": "pp-api-spec",
+      "file": "pp-api-spec.md",
+      "description": "Pragmatic Play 無縫錢包 API 完整規格：所有端點參數、Hash 計算、roundDetails 格式、錯誤碼、Data Feed（排除 XVI 真人娛樂場與 XVIII 賓果）",
+      "keywords": ["PP", "pragmatic play", "API", "seamless wallet", "無縫錢包", "authenticate", "balance", "bet", "result", "bonusWin", "jackpotWin", "endRound", "refund", "promoWin", "adjustment", "roundDetails", "hash", "error code", "data feed", "reconciliation", "核帳"]
+    },
+    {
       "id": "backend-dev",
       "file": "backend-dev.md",
       "description": "後端開發最佳實踐",
